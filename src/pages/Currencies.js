@@ -150,7 +150,7 @@ const Currencies = () => {
           // <Loading loading={loading} />
           <TableLoading row={12} col={7} width={163} height={20} />
         ) : (
-          data.length !== 0 && (
+          coupons.length !== 0 && (
             <TableContainer className="mb-8 rounded-b-lg">
               <Table>
                 <TableHeader>

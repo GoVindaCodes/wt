@@ -7,7 +7,7 @@ import EditDeleteButton from "components/table/EditDeleteButton";
 import ShowHideButton from "components/table/ShowHideButton";
 import useToggleDrawer from "hooks/useToggleDrawer";
 import React from "react";
-import { showingTranslateValue } from "utils/translate";
+import { showingTranslateValue, showingTranslateValue1 } from "utils/translate";
 
 const ChildAttributeTable = ({
   att,
@@ -59,10 +59,10 @@ const ChildAttributeTable = ({
             <TableCell className="font-medium text-sm">
               {/* added by : Govinda 10/4/2024 */}
               {/* added [lang] */}
-              {showingTranslateValue(attribute?.name[lang], lang)}
+              {showingTranslateValue1(attribute?.name[lang], lang)}
             </TableCell>
 
-            <TableCell className="font-medium text-sm">{att?.option}</TableCell>
+            <TableCell className="font-medium text-sm">{attribute?.option}</TableCell>
 
             <TableCell className="text-center">
               <ShowHideButton id={attribute._id} status={attribute.status} />
@@ -75,7 +75,7 @@ const ChildAttributeTable = ({
                 setIsCheck={setIsCheck}
                 handleUpdate={handleUpdate}
                 handleModalOpen={handleModalOpen}
-                title={showingTranslateValue(attribute.name, lang)}
+                title={showingTranslateValue1(attribute.name[lang], lang)}
               />
             </TableCell>
           </TableRow>

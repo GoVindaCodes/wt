@@ -44,7 +44,7 @@ const OrderTable = ({ orders, currency, globalSetting }) => {
             <TableCell>
               <span className="font-semibold uppercase text-xs">
                 {order?.invoice}
-                {/* {order?._id.slice(0, 5)} */}
+                {order?._id.slice(0, 5)}
               </span>
             </TableCell>
 
@@ -55,14 +55,14 @@ const OrderTable = ({ orders, currency, globalSetting }) => {
                   globalSetting?.default_date_format,
                   "h:mm A"
                 )}
-                {/* {order?.updatedDate} */}
+                {order?.updatedDate}
 
               </span>
             </TableCell>
 
             <TableCell className="text-xs">
               <span className="text-sm">{order?.user_info?.name}</span>{" "}
-              {/* <span className="text-sm">{order?.name}</span>{" "} */}
+              <span className="text-sm">{order?.name}</span>{" "}
             </TableCell>
 
             <TableCell>

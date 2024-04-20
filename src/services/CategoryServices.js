@@ -203,8 +203,21 @@ const CategoryServices = {
     return requests.put(`/api/category/status/${id}`, body); // Updated route
   },
 
+  // deleteCategory: async (id) => {
+  //   console.log("ids : ", id)
+  //   return requests.delete(`/api/category/${id}`); // Updated route
+  // },
   deleteCategory: async (id) => {
-    return requests.delete(`/api/category/${id}`); // Updated route
+    console.log("Request to delete category with ID:", id);
+
+    try {
+      const response = await requests.delete(`/api/category/${id}`);
+      console.log("Response from backend:", response);
+
+      return response;
+    } catch (error) {
+      console.error("Error from backend:", error);
+    }
   },
 
   updateManyCategory: async (body) => {

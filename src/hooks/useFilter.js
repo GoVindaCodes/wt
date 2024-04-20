@@ -113,7 +113,7 @@ const useFilter = (data) => {
   const location = useLocation();
   const { lang, setIsUpdate, setLoading } = useContext(SidebarContext);
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-
+  console.log(" datas from filters : ", data)
   //service data filtering
   const serviceData = useMemo(() => {
     const date = new Date();
@@ -186,7 +186,6 @@ const useFilter = (data) => {
     }
 
     if (attributeTitle) {
-      console.log("asss");
       services = services.filter(
         (search) =>
           search?.title[lang]

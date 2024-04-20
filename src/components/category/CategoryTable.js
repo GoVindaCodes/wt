@@ -40,13 +40,20 @@ const CategoryTable = ({
       setIsCheck(isCheck.filter((item) => item !== id));
     }
   };
+  // console.log("datas : ", categories.children.en)
+  // Assuming categories is an object with a children array property
+  // that contains objects with a name property that is an array of objects with 'en' property.
+
+  // data.children.forEach((child) => {
+  //   console.log("data : ", child.name[0]);
+  // });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         console.log("Fetching languages... Table");
         const response = await requests.get('/api/category/all');
-        console.log("Categories fetched successfully from table:", response);
+        // console.log("Categories fetched successfully from table:", response);
       } catch (error) {
         console.error('Error fetching languages:', error);
       }
@@ -67,7 +74,7 @@ const CategoryTable = ({
       </MainDrawer>
 
       <TableBody>
-        {categories?.map((category) => (
+        {data?.map((category) => (
           <TableRow key={category._id}>
             <TableCell>
               <CheckBox
@@ -83,13 +90,15 @@ const CategoryTable = ({
               {category?._id?.substring(0, 9)}
             </TableCell>
             <TableCell>
-              {category?.image ? (
+              {/* {category?.image ? ( */}
+              {category?.icon ? (
                 <Avatar
                   className="hidden mr-3 md:block bg-gray-50 p-1"
-                  src={category?.image}
+                  // src={category?.image}
+                  src={category?.icon}
                   // {/* added by : Govinda 10/4/2024 */}
                   // {/* added [lang] */}
-                  alt={category?.name[lang]}
+                  alt={category?.parentName}
                 />
               ) : (
                 <Avatar
@@ -107,13 +116,15 @@ const CategoryTable = ({
                 >
                   {/* added by : Govinda 10/4/2024 */}
                   {/* added [lang] */}
-                  {category.name[lang]}
+                  {/* {category.name[lang]} */}
+                  {/* {showingTranslateValue(category?.name, lang)} */}
+                  {showingTranslateValue(category?.parent, lang)}
                   <>
                     {showChild && (
                       <>
                         {" "}
                         <div className="pl-2 ">
-                          {category.children.map((child, i) => (
+                          {category?.children?.map((child, i) => (
                             <div key={i}>
                               <Link
                                 to={`/categories/${child}`}
@@ -139,13 +150,15 @@ const CategoryTable = ({
                 <span>
                   {/* added by : Govinda 10/4/2024 */}
                   {/* added [lang] */}
-                  {category.name[lang]}
+                  {/* {category.parentName} */}
+                  {category.parent}
+                  {/* hi */}
                 </span>
               )}
             </TableCell>
 
             <TableCell className="text-sm">
-              {showingTranslateValue(category?.description, lang)}
+              {/* {showingTranslateValue(category?.description.en, lang)} */}
               {category.type}
             </TableCell>
 
@@ -159,7 +172,7 @@ const CategoryTable = ({
             <TableCell>
               <EditDeleteButton
                 id={category?._id}
-                parent={category}
+                parent={category?.parent}
                 isCheck={isCheck}
                 children={category?.children}
                 handleUpdate={handleUpdate}

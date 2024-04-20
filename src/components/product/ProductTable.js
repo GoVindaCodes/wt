@@ -72,6 +72,7 @@ const ProductTable = ({ products, isCheck, setIsCheck, currency, lang }) => {
               <CheckBox
                 type="checkbox"
                 name={product?.title?.en}
+                // name={product?.title?.[lang]}
                 id={product._id}
                 handleClick={handleClick}
                 isChecked={isCheck?.includes(product._id)}
@@ -94,14 +95,14 @@ const ProductTable = ({ products, isCheck, setIsCheck, currency, lang }) => {
                 )}
                 <div>
                   <h2 className="text-sm font-medium">
-                    {showingTranslateValue(product?.title[lang], lang)?.substring(
+                    {showingTranslateValue(product?.title, lang)?.substring(
                       0,
                       28
                     )}
-                    {product.title[lang].substring(
+                    {/* {product.title[lang].substring(
                       0,
                       15
-                    )}...
+                    )}... */}
                   </h2>
                   <h2 className="text-sm font-medium">
                     {product.title[lang] && typeof product.title[lang] === 'string' ?
@@ -116,14 +117,16 @@ const ProductTable = ({ products, isCheck, setIsCheck, currency, lang }) => {
 
             <TableCell>
               <span className="text-sm">
-                {showingTranslateValue(product?.parent, lang)}
-                {/* {product?.parent} */}
+                {/* {showingTranslateValue(product?.category.name.en, lang)} */}
+                {product?.parent}
               </span>
             </TableCell>
 
             <TableCell>
               <span className="text-sm font-semibold">
                 {currency}
+                {/* new schema changes over here added by Govinda */}
+                {/* {Number(product?.prices.originalPrice).toFixed(2)} */}
                 {Number(product?.originalPrice).toFixed(2)}
               </span>
             </TableCell>
@@ -131,12 +134,16 @@ const ProductTable = ({ products, isCheck, setIsCheck, currency, lang }) => {
             <TableCell>
               <span className="text-sm font-semibold">
                 {currency}
-                {Number(product?.price[lang]).toFixed(2)}
+                {/* new schema changes over here added by Govinda */}
+                {/* {Number(product?.prices.price).toFixed(2)} */}
+                {Number(product?.originalPrice).toFixed(2)}
               </span>
             </TableCell>
 
             <TableCell>
+              {/* new schema changes over here added by Govinda */}
               <span className="text-sm">{product.quantity}</span>
+              {/* <span className="text-sm">{product.stock}</span> */}
             </TableCell>
             <TableCell>
               {product.stock > 0 ? (
@@ -147,7 +154,9 @@ const ProductTable = ({ products, isCheck, setIsCheck, currency, lang }) => {
             </TableCell>
             <TableCell>
               <Link
+                //  just added for slugss
                 to={`/product/${product._id}`}
+                // to={`/product/${product.slug}`}
                 className="flex justify-center text-gray-400 hover:text-green-600"
               >
                 <Tooltip
@@ -160,7 +169,7 @@ const ProductTable = ({ products, isCheck, setIsCheck, currency, lang }) => {
             </TableCell>
             <TableCell className="text-center">
               <ShowHideButton id={product?._id} status={product?.status} />
-              {product.status}
+              {/* {product.status} */}
             </TableCell>
             <TableCell>
               <EditDeleteButton

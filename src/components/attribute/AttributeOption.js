@@ -13,10 +13,10 @@ const AttributeOption = ({
 }) => {
   const [attributeOptions, setAttributeOptions] = useState([]);
   const [selectionLimit, setSelectionLimit] = useState(null);
-
+  console.log("attributes : ", attributes)
   const handleSelectValue = (v, el) => {
     console.log("handleValue", v, el);
-    if (el?.name[lang] === "All") {
+    if (el?.name === "All") {
       const result = attributes?.variants.filter((att) => att._id !== "1");
 
       setValues({
@@ -26,14 +26,14 @@ const AttributeOption = ({
 
 
       setSelectionLimit("1");
-      // setAttributeOptions([el]);
+      setAttributeOptions([el]);
     } else {
 
       setSelectionLimit(null);
       const dd = attributes?.variants.map((val) => {
         return {
           ...val,
-          name: showingTranslateValue(val?.name.en, lang),
+          name: showingTranslateValue(val?.name, lang),
         };
       });
       setAttributeOptions(dd);
@@ -54,7 +54,7 @@ const AttributeOption = ({
       let dd = attributes?.variants?.map((val) => {
         return {
           ...val,
-          name: showingTranslateValue(val?.name.en, lang),
+          name: showingTranslateValue(val?.name, lang),
         };
       });
 
@@ -78,7 +78,7 @@ const AttributeOption = ({
     const dd = attributes?.variants?.map((val) => {
       return {
         ...val,
-        name: showingTranslateValue(val?.name.en, lang),
+        name: showingTranslateValue(val?.name, lang),
       };
     });
     setAttributeOptions(dd);
@@ -97,7 +97,7 @@ const AttributeOption = ({
         ref={(e) => (resetRef.current[id] = e)}
         onSelect={(v, el) => handleSelectValue(v, el)}
         onRemove={(v, el) => handleRemoveValue(v, el, id)}
-        placeholder={showingTranslateValue(attributes.title[lang], lang)}
+        placeholder={showingTranslateValue(attributes.name, lang)}
       ></Multiselect>
     </>
   );

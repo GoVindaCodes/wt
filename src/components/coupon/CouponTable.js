@@ -120,7 +120,7 @@ const CouponTable = ({ lang, isCheck, setIsCheck }) => {
                 )}
                 <div>
                   <span className="text-sm">
-                    {showingTranslateValue(coupon?.title[lang], lang)}
+                    {showingTranslateValue(coupon?.title.en, lang)}
                     {/* {coupon?.title[lang]} */}
                   </span>{" "}
                 </div>
@@ -142,7 +142,9 @@ const CouponTable = ({ lang, isCheck, setIsCheck }) => {
                       {" "}
                       {coupon?.discountType?.type === "percentage"
                         ? `${coupon?.discountType?.value}%`
-                        : `${'$'}${coupon?.discountPercentage}`}
+                        // : `${'$'}${coupon?.discountPercentage}`}
+                        // fixed for this backend schemas
+                        : `${'$'}${coupon?.discountType?.value}`}
                     </span>{" "}
                   </TableCell>
                 ) : (

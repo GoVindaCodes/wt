@@ -48,13 +48,13 @@ const useSettingSubmit = (id) => {
         const res = await SettingServices.updateGlobalSetting(settingData);
         setIsUpdate(true);
         setIsSubmitting(false);
-        window.location.reload();
+        // window.location.reload();
         notifySuccess(res.message);
       } else {
         const res = await SettingServices.addGlobalSetting(settingData);
         setIsUpdate(true);
         setIsSubmitting(false);
-        window.location.reload();
+        // window.location.reload();
         notifySuccess(res.message);
       }
     } catch (err) {

@@ -31,6 +31,7 @@ import adminData from "utils/staff";
 import useAsync from "hooks/useAsync";
 import AdminServices from "services/AdminServices";
 import requests from "services/httpService";
+import StaffDrawer from "components/drawer/StaffDrawer";
 // import AdminServices from "services/AdminServices";
 
 const Staff = () => {
@@ -76,7 +77,7 @@ const Staff = () => {
     <>
       <PageTitle>{t("StaffPageTitle")} </PageTitle>
       <MainDrawer>
-        {/* <StaffDrawer /> */}
+        <StaffDrawer />
       </MainDrawer>
 
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">

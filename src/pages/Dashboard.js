@@ -76,7 +76,7 @@ const Dashboard = () => {
   const { dataTable, serviceData } = useFilter(dashboardRecentOrder?.orders);
 
   // temporary
-  const data = orderData
+  // const data = orderData
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -367,8 +367,8 @@ const Dashboard = () => {
 
             <OrderTable
               lang={lang}
-              // orders={dataTable}
-              orders={data}
+              orders={dataTable}
+              // orders={data}
               globalSetting={globalSetting}
               currency={globalSetting?.default_currency || "$"}
             />

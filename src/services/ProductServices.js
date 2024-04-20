@@ -125,8 +125,16 @@ const ProductServices = {
     return requests.get("/api/products");
   },
 
+  //  just added for slugss
+  //  updated the routes as well heree for now
   getProductById: async (id) => {
-    return requests.get(`/api/products/${id}`);
+    return requests.get(`/api/products/product/${id}`);
+  },
+
+  //  just added for slugss
+
+  getProductBySlug: async (slug) => {
+    return requests.get(`/api/products/product/${slug}`);
   },
 
   addProduct: async (body) => {

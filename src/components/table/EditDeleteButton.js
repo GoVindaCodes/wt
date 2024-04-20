@@ -17,14 +17,14 @@ const EditDeleteButton = ({
   children,
 }) => {
   const { t } = useTranslation();
-  // console.log('edite delet button')
+  console.log('edite delet button')
   return (
     <>
       <div className="flex justify-end text-right">
         {children?.length > 0 ? (
           <>
             <Link
-              to={`/categories/${parent?._id}`}
+              to={`/categories/${id}`}
               className="p-2 cursor-pointer text-gray-400 hover:text-green-600 focus:outline-none"
             >
               <Tooltip

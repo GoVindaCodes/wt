@@ -30,18 +30,35 @@ const useCategorySubmit = (id, data) => {
   const onSubmit = async ({ name, description }) => {
     try {
       setIsSubmitting(true);
-      const categoryData = {
-        name: {
-          [language]: name,
-        },
-        description: { [language]: description ? description : {} },
-        parentId: checked ? checked : undefined,
-        parentName: selectCategoryName ? selectCategoryName : "Home",
-        // parentName: selectCategoryName ? selectCategoryName : 'Home',
-        icon: imageUrl,
-        status: published ? "show" : "hide",
-        lang: language,
+      // const categoryData = {
+      //   name: {
+      //     [language]: name,
+      //   },
+      //   description: { [language]: description ? description : {} },
+      //   parentId: checked ? checked : undefined,
+      //   parentName: selectCategoryName ? selectCategoryName : "Home",
+      //   // parentName: selectCategoryName ? selectCategoryName : 'Home',
+      //   icon: imageUrl,
+      //   status: published ? "show" : "hide",
+      //   lang: language,
+      //   createdAt: new Date().toISOString(),
+      //   updatedAt: new Date().toISOString(),
+      // };
+      const generateCustomId = () => {
+        const timestamp = Date.now().toString();
+        const randomPart = Math.random().toString(36).substr(2, 9);
+        return timestamp + randomPart;
       };
+      // justt temporary data is heree 
+      const categoryData = {
+        _id: generateCustomId(), // Use a function to generate a unique ID or provide a specific ID value
+        children: [], // Assuming no children by default; modify as needed
+        parent: name, // Match frontend `checked` to backend `parent`
+        type: description, // Replace with the correct type value
+        icon: imageUrl || 'default_icon_url', // Replace with a valid default icon URL
+        status: published ? 'Show' : 'Hide', // Match frontend `published` to backend `status`
+      };
+
 
       // console.log('category submit', categoryData);
 

@@ -7,14 +7,16 @@ import { showDateFormat } from "utils/dateFormate";
 import CustomerServices from "services/CustomerServices";
 import useAsync from "hooks/useAsync";
 import requests from "services/httpService";
+import dayjs from "dayjs";
+import { or } from "ajv/dist/compile/codegen";
 
 // import Status from '../table/Status';
 // import SelectStatus from '../form/SelectStatus';
 
 const CustomerOrderTable = ({ orders }) => {
-  // const { globalSetting } = useFilter(data);
   const [categories, setCategories] = useState([]);
   const { data, loading } = useAsync(CustomerServices.getAllCustomers);
+  const { globalSetting } = useFilter(data);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -29,7 +31,9 @@ const CustomerOrderTable = ({ orders }) => {
     };
     fetchCategories();
   }, []);
+  // console.log("orders :", orders)
 
+  // orders?.map((order) => { console.log("orders", order.) })
   return (
     <>
       <TableBody>
@@ -42,12 +46,12 @@ const CustomerOrderTable = ({ orders }) => {
             </TableCell>
             <TableCell>
               <span className="text-sm">
-                {/* {dayjs(order.createdAt).format("MMM D, YYYY")} */}
+                {dayjs(order.createdAt).format("MMM D, YYYY")}
                 {/* commeneted just for now change when needed  */}
-                {/* {showDateFormat(
+                {showDateFormat(
                   order.createdAt,
                   globalSetting?.default_date_format
-                )} */}
+                )}
               </span>
             </TableCell>
 
@@ -72,9 +76,10 @@ const CustomerOrderTable = ({ orders }) => {
             <TableCell className="text-center">
               <Status status={order.status} />
             </TableCell>
+            {/* added by : Govinda 19/04/2024 order was missing
             <TableCell className="text-right">
-              <SelectStatus id={order._id} />
-            </TableCell>
+              <SelectStatus id={order._id} order={order} />
+            </TableCell> */}
           </TableRow>
         ))}
       </TableBody>

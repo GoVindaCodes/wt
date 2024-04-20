@@ -39,7 +39,7 @@ const ParentCategory = ({
   //   let myCategories = [];
   //   for (let category of categories) {
   //     myCategories.push({
-  //       title: showingTranslateValue(category.parent, lang),
+  //       title: showingTranslateValue1(category.parentName, lang),
   //       key: category._id,
   //       children:
   //         category.children?.length > 0 && renderCategories(category.children), // Fix
@@ -54,7 +54,7 @@ const ParentCategory = ({
     let myCategories = [];
     if (categories !== undefined) {
       for (let category of categories) {
-        // console.log("categories from Categories Drawer :", category)
+        // console.log("categories from Categories Drawer :", category.children)
         let children = [];
         if (category.children && category.children.length > 0) {
           children = category.children.map(child => ({
@@ -63,7 +63,7 @@ const ParentCategory = ({
           }));
         }
         myCategories.push({
-          title: showingTranslateValue(category?.name, lang),
+          title: showingTranslateValue(category?.parent, lang),
           key: category._id,
           children: children,
         });
@@ -125,42 +125,105 @@ const ParentCategory = ({
 
 
 
+  // const handleSelect = (key) => {
+  //   const results = data.map(obj => findObject(obj, key)).filter(result => result !== undefined);
+
+  //   results.forEach(result => {
+  //     const getCategory = selectedCategory.filter(value => value._id === result._id);
+  //     console.log("getcategories :", getCategory)
+  //     if (getCategory.length !== 0) {
+  //       notifySuccess("This category already selected!");
+  //       return; // Stop execution for this result if category is already selected
+  //     }
+  //     let children = [];
+  //     if (result.children && result.children.length > 0) {
+  //       children = result.children.map(child => ({
+  //         title: showingTranslateValue1(child, lang),
+  //         key: child,
+  //       }));
+  //     }
+  //     console.log("childrens : ", children)
+  //     setSelectedCategory(prev => {
+  //       const newCategory = {
+  //         _id: result?._id,
+  //         name: showingTranslateValue1(result?.parent, lang),
+  //         children: children,
+  //       };
+  //       console.log("New category added to selectedCategory:", newCategory);
+  //       return [...prev, newCategory];
+  //     });
+
+  //     setDefaultCategory(() => [
+  //       {
+  //         _id: result?._id,
+  //         name: showingTranslateValue1(result?.parent, lang),
+  //         children: children,
+  //       },
+  //     ]);
+  //   });
+  // };
+
+  // const handleSelect = (key) => {
+  //   const obj = data[0];
+  //   console.log("obj : ", obj)
+  //   const result = findObject(obj, key);
+
+  //   if (result !== undefined) {
+  //     const getCategory = selectedCategory.filter(
+  //       (value) => value._id === result._id
+  //     );
+
+  //     if (getCategory.length !== 0) {
+  //       return notifySuccess("This category already selected!");
+  //     }
+
+  //     setSelectedCategory((pre) => [
+  //       ...pre,
+  //       {
+  //         _id: result?._id,
+  //         name: showingTranslateValue(result?.parent, lang),
+  //       },
+  //     ]);
+  //     setDefaultCategory(() => [
+  //       {
+  //         _id: result?._id,
+  //         name: showingTranslateValue(result?.parent, lang),
+  //       },
+  //     ]);
+  //   }
+  // };
+
+  // for now this is working will change later on depending upon the datas being fetch from the backends
+
   const handleSelect = (key) => {
-    const results = data.map(obj => findObject(obj, key)).filter(result => result !== undefined);
-
-    results.forEach(result => {
-      const getCategory = selectedCategory.filter(value => value._id === result._id);
-      console.log("getcategories :", getCategory)
-      if (getCategory.length !== 0) {
-        notifySuccess("This category already selected!");
-        return; // Stop execution for this result if category is already selected
+    const findCategoryAndChildren = (categories, key) => {
+      let foundCategories = [];
+      for (const category of categories) {
+        if (category._id === key) {
+          foundCategories.push({
+            _id: category._id,
+            name: showingTranslateValue(category?.parent, lang),
+          });
+        }
+        if (category.children && category.children.length > 0) {
+          foundCategories = foundCategories.concat(
+            findCategoryAndChildren(category?.children, key)
+          );
+        }
       }
-      let children = [];
-      if (result.children && result.children.length > 0) {
-        children = result.children.map(child => ({
-          title: showingTranslateValue(child, lang),
-          key: child,
-        }));
-      }
-      console.log("childrens : ", children)
-      setSelectedCategory(prev => {
-        const newCategory = {
-          _id: result?._id,
-          name: showingTranslateValue(result?.name, lang),
-          children: children,
-        };
-        console.log("New category added to selectedCategory:", newCategory);
-        return [...prev, newCategory];
-      });
 
-      setDefaultCategory(() => [
-        {
-          _id: result?._id,
-          name: showingTranslateValue(result?.name, lang),
-          children: children,
-        },
-      ]);
-    });
+      return foundCategories;
+    };
+    const foundCategories = findCategoryAndChildren(data, key);
+    const newCategories = foundCategories.filter(
+      (cat) => !selectedCategory.some((value) => value._id === cat._id)
+    );
+    if (newCategories.length > 0) {
+      setSelectedCategory((prev) => [...prev, ...newCategories]);
+      setDefaultCategory(newCategories);
+    } else {
+      notifySuccess("This category or its children are already selected!");
+    }
   };
 
 

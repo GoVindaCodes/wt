@@ -57,7 +57,7 @@ const StaffTable = ({ staffs, lang }) => {
       </MainDrawer>
 
       <TableBody>
-        {data?.map((staff) => (
+        {staffs?.map((staff) => (
           <TableRow key={staff._id}>
             <TableCell>
               <div className="flex items-center">
@@ -68,7 +68,7 @@ const StaffTable = ({ staffs, lang }) => {
                 />
                 <div>
                   <h2 className="text-sm font-medium">
-                    {showingTranslateValue(staff?.name[lang], lang)}
+                    {showingTranslateValue(staff?.name.en, lang)}
                   </h2>
                 </div>
               </div>
@@ -88,7 +88,7 @@ const StaffTable = ({ staffs, lang }) => {
                   staff.joiningData,
                   globalSetting.default_date_format
                 )}
-                {/* {staff.joiningData} */}
+                {/* {staff.joiningDate} */}
               </span>
             </TableCell>
             <TableCell>
@@ -116,7 +116,7 @@ const StaffTable = ({ staffs, lang }) => {
                 handleModalOpen={handleModalOpen}
                 handleResetPassword={handleResetPassword}
                 title={staff.name}
-              // title={showingTranslateValue(staff?.name, lang)}
+              // title={showingTranslateValue(staff?.name.en, lang)}
               />
             </TableCell>
           </TableRow>

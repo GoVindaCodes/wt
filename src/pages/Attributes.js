@@ -272,8 +272,8 @@ const Attributes = () => {
                     <TableCell>{t("AOption")}</TableCell>
 
                     <TableCell className="text-center">{t("catPublishedTbl")}</TableCell>
-
-                    <TableCell className="text-center">{t("Avalues")}</TableCell>
+                    {/* just for now commented for the backends datas */}
+                    {/* <TableCell className="text-center">{t("Avalues")}</TableCell> */}
 
                     <TableCell className="text-right">{t("AAction")}</TableCell>
                   </tr>

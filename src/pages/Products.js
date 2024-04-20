@@ -84,11 +84,12 @@ const Products = () => {
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
     setIsCheck((data?.products.map((li) => li._id)));
-    //console.log("IDs being set in setIsCheck:", data?.products.map((li) => li._id));
+    // console.log("IDs being set in setIsCheck:", data?.products.map((li) => li._id));
 
     if (isCheckAll) {
       setIsCheck([]);
     }
+    // console.log("ids : ", setIsCheck)
   };
   const [categories, setCategories] = useState([]);
 
@@ -144,7 +145,7 @@ const Products = () => {
               <div className="w-full md:w-40 lg:w-40 xl:w-40 mr-3 mb-3 lg:mb-0">
                 <Button
                   disabled={isCheck.length < 1}
-                  // onClick={() => handleUpdateMany(isCheck)}
+                  onClick={() => handleUpdateMany(isCheck)}
                   className="w-full rounded-md h-12 btn-gray text-gray-600 sm:mb-3"
                 >
                   <span className="mr-2">
