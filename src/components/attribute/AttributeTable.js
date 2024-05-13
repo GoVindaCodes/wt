@@ -28,84 +28,6 @@ const AttributeTable = ({ isCheck, setIsCheck, attributes }) => {
       setIsCheck(isCheck.filter((item) => item !== id));
     }
   };
-  // const deleteAttribute = async (id) => {
-  //   try {
-  //     // Call deleteAttribute function from AttributeServices module
-  //     await AttributeServices.deleteAttribute(id);
-  //     // Optional: Add any UI updates or notifications for successful deletion
-  //     console.log("Attribute deleted successfully!");
-  //   } catch (error) {
-  //     // Handle errors
-  //     console.error("Error deleting attribute:", error);
-  //     // Optional: Add error handling UI updates or notifications
-  //   }
-  // };
-  // const [data, setData] = useState([
-  //   {
-  //     _id: '3923fsd',
-  //     title: 'Attribute 1',
-  //     name: 'Attribute',
-  //     option: 'option 1'
-  //   },
-  //   {
-  //     _id: '39ingtr',
-  //     title: 'Attribute 2',
-  //     name: 'Attribute',
-  //     option: 'option 2'
-  //   },
-  //   {
-  //     _id: '3345dkll',
-  //     title: 'Attribute 3',
-  //     name: 'Attribute',
-  //     option: 'option 3'
-  //   },
-  //   {
-  //     _id: '32fdjk',
-  //     title: 'Attribute 4',
-  //     name: 'Attribute',
-  //     option: 'option 4'
-  //   }
-  // ]);
-  // Function to handle deletion of selected attributes
-  // const handleDeleteSelectedAttributes = () => {
-  //   try {
-  //     // Filter out the attributes that are not selected
-  //     const updatedData = data.filter((attribute) => !isCheck.includes(attribute._id));
-  //     // Update the data with the filtered attributes
-  //     setData(updatedData);
-  //     // Clear the selection
-  //     setIsCheck([]);
-  //     // Show a success message or trigger any necessary UI updates
-  //     console.log("Selected attributes deleted successfully");
-  //   } catch (error) {
-  //     // Handle errors
-  //     console.error("Error deleting selected attributes:", error);
-  //     // Show an error message or trigger any necessary UI updates
-  //   }
-  // };
-  // console.log('attributes', attributes);
-  const [attribute, setAttributes] = useState([]);
-
-  useEffect(() => {
-    const fetchLanguages = async () => {
-      try {
-        console.log("Fetching currencies...");
-        const response = await requests.get('/api/attributes');
-        console.log("currencies fetched successfully from  the tables:", response);
-        // // Assuming `response` is the array containing objects with `title` and `name` properties
-        // response.forEach((item, index) => {
-        //   console.log(`Item ${index + 1}:`);
-        //   console.log("Title:", item.title);
-        //   console.log("Name:", item.name);
-        // });
-        setAttributes(response);
-      } catch (error) {
-        console.error('Error fetching languages:', error);
-      }
-    };
-    fetchLanguages();
-  }, []);
-  // console.log("datas : ", data)
   return (
     <>
       {isCheck.length < 1 && <DeleteModal id={serviceId} title={title} />}
@@ -173,7 +95,7 @@ const AttributeTable = ({ isCheck, setIsCheck, attributes }) => {
 
             {/* just for now commented for the backends datas */}
 
-            {/* 
+
             <TableCell className="flex justify-center">
               <Link
                 to={`/attributes/${attribute._id}`}
@@ -186,7 +108,7 @@ const AttributeTable = ({ isCheck, setIsCheck, attributes }) => {
                   bgColor="#10B981"
                 />
               </Link>
-            </TableCell> */}
+            </TableCell>
 
             <TableCell>
               <EditDeleteButton

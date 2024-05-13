@@ -29,10 +29,10 @@ const CategoryTable = ({
   setIsCheck,
   useParamId,
   showChild,
-  serviceId,
-  title,
+  // serviceId,
+  // title,
 }) => {
-  const { handleModalOpen, handleUpdate } = useToggleDrawer();
+  const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
 
   const handleClick = (e) => {
     const { id, checked } = e.target;
@@ -61,7 +61,7 @@ const CategoryTable = ({
   //   };
   //   fetchData();
   // }, []);
-
+  // console.log("categories: ", categories)
   return (
     <>
       {isCheck?.length < 1 && (
@@ -149,11 +149,11 @@ const CategoryTable = ({
                 </Link>
               ) : (
                 <span>
-                  {/* added by : Govinda 10/4/2024 */}
-                  {/* added [lang] */}
-                  {/* {category.parentName} */}
-                  {category.parent}
-                  {/* hi */}
+                  {category.parent ? (
+                    showingTranslateValue(category.parent, lang)
+                  ) : (
+                    showingTranslateValue(category, lang)
+                  )}
                 </span>
               )}
             </TableCell>
@@ -171,8 +171,8 @@ const CategoryTable = ({
               />
             </TableCell>
             <TableCell>
-              <EditDeleteButtons
-                id={category?._id}
+              <EditDeleteButton
+                id={category._id}
                 parent={category?.parent}
                 isCheck={isCheck}
                 children={category?.children}

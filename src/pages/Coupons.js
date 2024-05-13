@@ -52,7 +52,7 @@ const Coupons = () => {
     handleSubmitCoupon,
     couponRef,
     dataTable,
-    // serviceData,
+    serviceData,
     totalResults,
     resultsPerPage,
     handleChangePage,
@@ -195,14 +195,14 @@ const Coupons = () => {
       </Card>
 
       {
-        false
-          // loading
+        // false
+        loading
           ? (
             // <Loading loading={loading} />
             <TableLoading row={12} col={8} width={140} height={20} />
           ) :
-          // serviceData?.length !== 0 
-          true
+          serviceData?.length !== 0
+            // true
             ? (
               <TableContainer className="mb-8">
                 <Table>

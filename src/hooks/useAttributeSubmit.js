@@ -21,7 +21,6 @@ const useAttributeSubmit = (id) => {
   const { setServiceId } = useToggleDrawer();
 
   let variantArrayOfObject = [];
-
   for (let i = 0; i < variants.length; i++) {
     variantArrayOfObject = [
       ...variantArrayOfObject,
@@ -50,6 +49,7 @@ const useAttributeSubmit = (id) => {
           return;
         }
       }
+
       const attributeData = {
         title: {
           [language]: title,
@@ -109,7 +109,7 @@ const useAttributeSubmit = (id) => {
         notifySuccess(res.message);
         closeDrawer();
       } else {
-        const res = await AttributeServices.addChildAttribute(
+        const res = await AttributeServices.addChildAttributes(
           location.pathname.split('/')[2],
           {
             name: {

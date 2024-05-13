@@ -119,7 +119,10 @@
 // new backendss addedds
 
 import requests from './httpService';
+import io from "socket.io-client";
 
+// Create a socket connection to the server
+const socket = io("http://localhost:5055");
 const ProductServices = {
   getAllProducts: async () => {
     return requests.get("/api/products");
@@ -154,8 +157,32 @@ const ProductServices = {
     return requests.patch("/api/products/update/many", body);
   },
 
+  // updateStatus: async (id, body) => {
+  //   return requests.put(`/api/products/status/${id}`, body);
+  // },
+
   updateStatus: async (id, body) => {
-    return requests.put(`/api/products/status/${id}`, body);
+    // Make the HTTP request to update the status
+    const response = await requests.put(`/api/products/status/${id}`, body);
+
+    // If the HTTP request is successful, emit a status update event to the server
+    if (response.status === 200) {
+      socket.emit("updateStatus", id, body.status);
+    }
+
+    return response;
+  },
+
+  // Method for subscribing to product status updates
+  subscribeToStatusUpdates: (callback) => {
+    // Listen for status updates from the server
+    socket.on("statusUpdate", callback);
+  },
+
+  // Method for unsubscribing from status updates
+  unsubscribeFromStatusUpdates: () => {
+    // Remove the event listener for status updates
+    socket.off("statusUpdate");
   },
 
   deleteProduct: async (id) => {

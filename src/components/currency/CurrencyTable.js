@@ -109,7 +109,7 @@
 // export default CurrencyTable;
 
 
-import { TableBody, TableCell, TableRow, WindmillContext } from "@windmill/react-ui";
+import { TableBody, TableCell, TableRow } from "@windmill/react-ui";
 import CurrencyDrawer from "components/drawer/CurrencyDrawer";
 import MainDrawer from "components/drawer/MainDrawer";
 import CheckBox from "components/form/CheckBox";
@@ -123,7 +123,6 @@ import CurrencyServices from "services/CurrencyServices";
 
 const CurrencyTable = ({ currency, isCheck, setIsCheck }) => {
   const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
-  const { mode } = useContext(WindmillContext); // Access mode from WindmillContext
   const [updatedCurrency, setUpdatedCurrency] = useState([]);
 
   useEffect(() => {
@@ -179,8 +178,7 @@ const CurrencyTable = ({ currency, isCheck, setIsCheck }) => {
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="currencyTable">
           {(provided) => (
-            <TableBody {...provided.droppableProps} ref={provided.innerRef} className={mode === "dark" ? "dark:bg-gray-800" : "bg-white"}
-            >
+            <TableBody {...provided.droppableProps} ref={provided.innerRef}>
               {updatedCurrency.map((currency, index) => (
                 <Draggable key={currency._id} draggableId={currency._id} index={index}>
                   {(provided, snapshot) => (
@@ -195,7 +193,7 @@ const CurrencyTable = ({ currency, isCheck, setIsCheck }) => {
                         width: "100%",
                       }}
                     >
-                      <TableCell>
+                      <TableCell className="bg-white p-4 w-80 dark:bg-gray-800">
                         <div {...provided.dragHandleProps}>
                           <CheckBox
                             type="checkbox"
@@ -206,20 +204,21 @@ const CurrencyTable = ({ currency, isCheck, setIsCheck }) => {
                           />
                         </div>
                       </TableCell>
-                      <TableCell className="text-center">
+                      <TableCell className="text-center bg-white p-4 w-80 dark:bg-gray-800">
                         <span className="font-medium">{currency.name}</span>
                       </TableCell>
-                      <TableCell className="text-center">
+                      <TableCell className="text-center bg-white p-4 w-80 dark:bg-gray-800">
                         <span className="font-medium">{currency.symbol}</span>
                       </TableCell>
-                      <TableCell className="text-center">
+                      <TableCell className="text-center bg-white p-4 w-80 dark:bg-gray-800">
                         <ShowHideButton
                           id={currency._id}
                           status={currency.status}
+                          // live_exchange_rates={currency.live_exchange_rates}
                           currencyStatusName="status"
                         />
                       </TableCell>
-                      <TableCell className="text-center">
+                      <TableCell className="text-center bg-white p-4 w-80 dark:bg-gray-800">
                         <EditDeleteButton
                           title={currency.name}
                           id={currency._id}

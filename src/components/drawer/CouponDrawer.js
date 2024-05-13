@@ -151,7 +151,7 @@ const CouponDrawer = ({ id }) => {
                   name="minimumAmount"
                   type="number"
                   placeholder={t("MinimumAmountPlasholder")}
-                  currency={currency}
+                  currency={discountType ? "%" : currency}
                 />
                 <Error errorName={errors.minimumAmount} />
               </div>

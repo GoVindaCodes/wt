@@ -143,12 +143,11 @@ const CurrencyServices = {
   },
 
   updateManyCurrencies: async (body) => {
+    console.log("udpates currencies", body);
     return requests.patch('/api/currency/update/many', body);
   },
 
   updateEnabledStatus: async (id, body) => {
-    console.log("id : ", id)
-    console.log("id : ", body)
     return requests.put(`/api/currency/status/enabled/${id}`, body);
   },
 

@@ -32,6 +32,7 @@ const BulkActionDrawer = ({
 }) => {
   const { toggleBulkDrawer, isBulkDrawerOpen, closeBulkDrawer } =
     useContext(SidebarContext);
+  // console.log("attributes :", attributes)
 
   const {
     tag,
@@ -499,11 +500,18 @@ const BulkActionDrawer = ({
                             Select Attribute Group
                           </option>
 
-                          {attributes?.map((value, index) => (
-                            <option key={index + 1} value={value._id}>
-                              {showingTranslateValue(value?.name, lang)}
+                          {attributes && attributes.length > 0 ? (
+                            attributes.map((value, index) => (
+                              <option key={index + 1} value={value._id}>
+                                {showingTranslateValue(value?.name.en, lang)}
+                              </option>
+                            ))
+                          ) : (
+                            <option value="" disabled>
+                              No attribute groups available
                             </option>
-                          ))}
+                          )}
+
                         </Select>
 
                         <Error errorName={errors.groupName} />

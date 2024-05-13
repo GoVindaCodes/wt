@@ -2,19 +2,19 @@ import requests from './httpService';
 
 const NotificationServices = {
   addNotification: async (body) => {
-    return requests.post('/notification/add', body);
+    return requests.post('api/notification/add', body);
   },
 
   getAllNotification: async () => {
-    return requests.get('/notification');
+    return requests.get('api/notification');
   },
 
   updateStatus: async (id, body) => {
-    return requests.put(`/notification/${id}`, body);
+    return requests.put(`api/notification/${id}`, body);
   },
 
   deleteNotification: async (id) => {
-    return requests.delete(`/notification/${id}`);
+    return requests.delete(`api/notification/${id}`);
   },
 };
 

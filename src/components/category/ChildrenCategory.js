@@ -6,7 +6,7 @@ const ChildrenCategory = ({ value }) => {
   const [categories, setCategories] = useState([]);
 
   const { data } = useAsync(CategoryServices.getAllCategory);
-
+  console.log("datas from childrens : ", data)
   useEffect(() => {
     if (data && value) {
       const result = data.filter((parent) =>
@@ -14,7 +14,7 @@ const ChildrenCategory = ({ value }) => {
       );
       setCategories(result);
     } else {
-      setCategories(data || []); // Handle data being undefined or null
+      setCategories(data || []);
     }
   }, [data, value]);
 

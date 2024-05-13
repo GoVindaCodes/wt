@@ -24,6 +24,10 @@ import useToggleDrawer from "hooks/useToggleDrawer";
 import ProductServices from "services/ProductServices";
 import { showingTranslateValue } from "utils/translate";
 import SettingServices from "services/SettingServices";
+import { FiChevronRight } from "react-icons/fi";
+// import { Link } from "@react-pdf/renderer";
+import { Link } from "react-router-dom";
+
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -34,7 +38,7 @@ const ProductDetails = () => {
   const { lang } = useContext(SidebarContext);
 
   const { data, loading } = useAsync(() => ProductServices.getProductById(id));
-  console.log('datas', data)
+  console.log('attributes', attribue)
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
   const currency = globalSetting?.default_currency || "$";
 
@@ -44,18 +48,13 @@ const ProductDetails = () => {
 
   useEffect(() => {
     if (!loading) {
-      // const res = Object.keys(Object.assign({}, ...data?.variants));
-
-      // const varTitle = attribue?.filter((att) =>
-      //   res.includes(att.title.replace(/[^a-zA-Z0-9]/g, ''))
-      //   // res.includes(att._id)
-      // );
-
-      // setVariantTitle(varTitle);
+      const res = Object.keys(Object.assign({}, ...data?.variants));
+      const varTitle = attribue?.filter((att) =>
+        res.includes(att._id)
+      );
+      setVariantTitle(varTitle);
     }
   }, [attribue, data?.variants, loading, lang]);
-
-  console.log("data.variants", globalSetting);
 
   return (
     <>
@@ -63,21 +62,44 @@ const ProductDetails = () => {
         <ProductDrawer id={id} />
       </MainDrawer>
 
+
+
+
       <PageTitle>{t("ProductDetails")}</PageTitle>
+      <div className="flex items-center pb-4">
+        <ol className="flex items-center w-full overflow-hidden font-serif">
+          <li className="text-sm pr-1 transition duration-200 ease-in cursor-pointer hover:text-emerald-500 font-semibold">
+            <Link className="text-blue-700" to={`/products`}>
+              Products
+            </Link>
+          </li>
+
+          <span className="flex items-center font-serif">
+            <li className="text-sm mt-[1px]">
+              {" "}
+              <FiChevronRight />{" "}
+            </li>
+
+            <li className="text-sm pl-1 font-semibold ">
+              {!loading && showingTranslateValue(data?.title, lang)}
+            </li>
+          </span>
+        </ol>
+      </div>
       {loading ? (
         <Loading loading={loading} />
       ) : (
         <div className="inline-block overflow-y-auto h-full align-middle transition-all transform">
-          <div className="flex flex-col lg:flex-row md:flex-row w-full overflow-hidden">
-            <div className="flex-shrink-0 flex items-center justify-center h-auto">
+          <div className="flex flex-col lg:flex-col md:flex-row w-full overflow-hidden">
+            {/* <div className="flex flex-col lg:flex-row md:flex-row w-full overflow-hidden"> */}
+            {/* <div className={`flex flex-row ${data?.images?.length > 1 ? 'lg:flex-col' : ''} lg:flex-row md:flex-row w-full overflow-hidden`}> */}
+            <div className="flex-shrink-0  flex items-center justify-center h-auto">
               {/* {data && data.image && data.image.length > 0 ? ( */}
-              {data && data.image && data.image.length > 0 ? (
-                <div className="flex">
-                  {/* {data.image.map((image, index) => (
+              {data && Array.isArray(data.image) && data.image.length > 0 ? (
+                <div className="flex flex-row">
+                  {data.image.map((image, index) => (
                     <img key={index} src={image} alt={`product-${index}`} className="h-64 w-64 mr-2" />
-                  ))} */}
-                  {/* just temporrary solutions to match the schema fields in the backends */}
-                  <img src={data?.image} className="h-64 w-64 mr-2" />
+                  ))}
                 </div>
               ) : (
                 <img
@@ -154,7 +176,8 @@ const ProductDetails = () => {
                   <span className="text-gray-700 dark:text-gray-400">
                     {t("Category")}:{" "}
                   </span>{" "}
-                  {showingTranslateValue(data?.category?.name, lang)}
+                  {/* {showingTranslateValue(data?.category?.name, lang)} */}
+                  {showingTranslateValue(data?.parent, lang)}
                 </p>
                 <div className="flex flex-row">
                   {JSON.parse(data?.tag).map((t, i) => (
@@ -177,8 +200,9 @@ const ProductDetails = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div >
       )}
+      {/* {data?.isCombination && data?.variants?.length > 0 && !loading && ( */}
       {data?.isCombination && variantTitle?.length > 0 && !loading && (
         <>
           <PageTitle>{t("ProductVariantList")}</PageTitle>
@@ -213,7 +237,8 @@ const ProductDetails = () => {
             </TableFooter>
           </TableContainer>
         </>
-      )}
+      )
+      }
     </>
   );
 };

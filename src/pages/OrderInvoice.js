@@ -18,8 +18,10 @@ import Status from "components/table/Status";
 import OrderServices from "services/OrderServices";
 import Invoice from "components/invoice/Invoice";
 import Loading from "components/preloader/Loading";
-import logoDark from "assets/img/logo/logo-dark.svg";
-import logoLight from "assets/img/logo/logo-light.svg";
+// import logoDark from "assets/img/logo/logo-dark.svg";
+// import logoLight from "assets/img/logo/logo-light.svg";
+import logo from "assets/img/logo/logo.png";
+import logoecommdaddy from "assets/img/logo/logo-ecommdaddy.svg";
 import PageTitle from "components/Typography/PageTitle";
 import InvoiceForDownload from "components/invoice/InvoiceForDownload";
 import SettingServices from "services/SettingServices";
@@ -59,10 +61,13 @@ const OrderInvoice = () => {
               <div className="lg:text-right text-left">
                 <h2 className="lg:flex lg:justify-end text-lg font-serif font-semibold mt-4 lg:mt-0 lg:ml-0 md:mt-0">
                   {mode === "dark" ? (
-                    <img src={logoLight} alt="dashtar" width="110" />
+                    <img src={logoecommdaddy} alt="dashtar" width="110" />
                   ) : (
-                    <img src={logoDark} alt="dashtar" width="110" />
+                    <img src={logo} alt="dashtar" width="110" />
                   )}
+                  {/* {globalSetting?.company_name} */}
+                  {/* for now its png not svg */}
+                  {/* <img src={logo} alt="dashtar" width="110" /> */}
                 </h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                   {globalSetting?.address}

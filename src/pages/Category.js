@@ -40,6 +40,7 @@ import requests from "services/httpService";
 import useAsync from "hooks/useAsync";
 import CategoryServices from "services/CategoryServices";
 import Loading from "components/preloader/Loading";
+import CustomPagination from "./CustomPagination";
 
 const Category = () => {
   const { toggleDrawer, lang } = useContext(SidebarContext);
@@ -67,6 +68,7 @@ const Category = () => {
     // handleSelectFile,
     // handleUploadMultiple,
     // handleRemoveSelectFile,
+    currentPage,
   } = useFilter(data);
 
   // react hooks
@@ -262,20 +264,26 @@ const Category = () => {
               </Table>
 
               <TableFooter>
-                <Pagination
+                {/* <Pagination
                   totalResults={totalResults}
                   // totalResults={data?.length}
                   resultsPerPage={resultsPerPage}
                   // resultsPerPage={resultsPerPage}
                   onChange={handleChangePage}
                   label="Table navigation"
-                />
+                /> */}
                 {/* <Pagination
                   totalResults={10}
                   resultsPerPage={2}
                   onChange={handleChangePage}
                   label="Table navigation"
                 /> */}
+                <CustomPagination
+                  currentPage={currentPage}
+                  totalResults={totalResults}
+                  resultsPerPage={resultsPerPage}
+                  onChange={handleChangePage}
+                />
               </TableFooter>
             </TableContainer>
           ) : (

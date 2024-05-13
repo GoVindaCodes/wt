@@ -180,7 +180,9 @@ const Orders = () => {
                   onChange={(e) => setStatus(e.target.value)}
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 >
-                  <option value="Status" defaultValue hidden>
+                  {/* Hidden has been removed for now on 3/5/2024 */}
+                  {/* <option value="Status" defaultValue> */}
+                  <option value="Status" defaultValue>
                     {t("Status")}
                   </option>
                   <option value="Delivered">{t("PageOrderDelivered")}</option>
@@ -195,7 +197,9 @@ const Orders = () => {
                   onChange={(e) => setTime(e.target.value)}
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 >
-                  <option value="Order limits" defaultValue hidden>
+                  {/* Hidden has been removed for now on 3/5/2024 */}
+                  {/* <option value="Order limits" defaultValue hidden> */}
+                  <option value="Order limits" defaultValue>
                     {t("Orderlimits")}
                   </option>
                   <option value="5">{t("DaysOrders5")}</option>

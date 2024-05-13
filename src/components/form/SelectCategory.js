@@ -58,16 +58,26 @@ import useAsync from "hooks/useAsync";
 import CategoryServices from "services/CategoryServices";
 import { showingTranslateValue, showingTranslateValue1 } from "utils/translate";
 import requests from "services/httpService";
+import useFilter from "hooks/useFilter";
 // import categoryData from "utils/categories";
 
-const SelectCategory = ({ setCategory, lang }) => {
+const SelectCategory = ({ setFilter, lang }) => {
   const { data } = useAsync(CategoryServices.getAllCategory);
   // const data = categoryData;
   // console.log('data category', data)
   // data.forEach(element => {
   //   console.log('data category', element.parent)
   // });
+  // const { setFilter } = useFilter(data?.products);
   const { t } = useTranslation();
+
+  const handleChange = (e) => {
+    const selectedIndex = e.target.selectedIndex;
+    const selectedOption = e.target[selectedIndex];
+    //console.log("Selected category value:", selectedOption.value);
+    // console.log("Selected category text:", selectedOption.text);
+    setFilter(selectedOption?.text);
+  };
 
   // const [categories, setCategories] = useState([]);
 
@@ -93,10 +103,20 @@ const SelectCategory = ({ setCategory, lang }) => {
   return (
     <>
       <Select
-        onChange={(e) => setCategory(e.target.value)}
+        // onChange={(e) => setFilter(e.target.value)}
+        // onChange={(e) => {
+        //   const selectedIndex = e.target.selectedIndex;
+        //   const selectedOption = e.target[selectedIndex];
+        //   // console.log("Selected category value:", selectedOption.value);
+        //   // console.log("Selected category text:", selectedOption.text);
+        //   setFilter(selectedOption.value);
+        // }
+        // }
+        onChange={handleChange}
         className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
       >
-        <option value="All" defaultValue hidden>
+        {/* <option value="All" defaultValue hidden> */}
+        <option value="hi" defaultValue>
           {t("Category")}
         </option>
         {/* {data?.map((cat) => ( */}

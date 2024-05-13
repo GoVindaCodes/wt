@@ -30,7 +30,7 @@ const ProductTable = ({ products, isCheck, setIsCheck, currency, lang, globalSet
   const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
   // const { data, loading } = useAsync(ProductServices.getAllProducts);
   // const { data, loading } = useAsync(CurrencyServices.getShowingCurrency);
-
+  // console.log("table sayss hi :", products)
   const handleClick = (e) => {
     const { id, checked } = e.target;
     console.log("id", id, checked);
@@ -83,7 +83,7 @@ const ProductTable = ({ products, isCheck, setIsCheck, currency, lang, globalSet
 
             <TableCell>
               <div className="flex items-center">
-                {product?.image ? (
+                {/* {product?.image ? (
                   <Avatar
                     className="hidden p-1 mr-2 md:block bg-gray-50 shadow-none"
                     src={product?.image}
@@ -92,6 +92,14 @@ const ProductTable = ({ products, isCheck, setIsCheck, currency, lang, globalSet
                 ) : (
                   <Avatar
                     src={`https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png`}
+                    alt="product"
+                  />
+                )} */}
+                {product?.image[0] ? (
+                  <Avatar src={product?.image[0]} alt="product" className="hidden p-1 mr-2 md:block bg-gray-50 shadow-none" />
+                ) : (
+                  <Avatar
+                    src="https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png"
                     alt="product"
                   />
                 )}
@@ -121,7 +129,7 @@ const ProductTable = ({ products, isCheck, setIsCheck, currency, lang, globalSet
               <span className="text-sm">
                 {/* {showingTranslateValue(product?.category.name.en, lang)} */}
                 {product?.parent}
-                {product?.category}
+                {/* {product?.category} */}
               </span>
             </TableCell>
 
@@ -146,10 +154,10 @@ const ProductTable = ({ products, isCheck, setIsCheck, currency, lang, globalSet
             <TableCell>
               {/* new schema changes over here added by Govinda */}
               <span className="text-sm">{product.quantity}</span>
-              <span className="text-sm">{product.stock}</span>
+              {/* <span className="text-sm">{product.stock}</span> */}
             </TableCell>
             <TableCell>
-              {product.stock > 0 ? (
+              {product.quantity > 0 ? (
                 <Badge type="success">{t("Selling")}</Badge>
               ) : (
                 <Badge type="danger">{t("SoldOut")}</Badge>

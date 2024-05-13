@@ -59,10 +59,11 @@ const ChildAttributeTable = ({
             <TableCell className="font-medium text-sm">
               {/* added by : Govinda 10/4/2024 */}
               {/* added [lang] */}
-              {showingTranslateValue1(attribute?.name[lang], lang)}
+              {showingTranslateValue(attribute?.name.en, lang)}
             </TableCell>
 
-            <TableCell className="font-medium text-sm">{attribute?.option}</TableCell>
+            {/* for now commented because data or varriants do not havees any option properties */}
+            <TableCell className="font-medium text-sm">{att.option}</TableCell>
 
             <TableCell className="text-center">
               <ShowHideButton id={attribute._id} status={attribute.status} />
@@ -75,7 +76,7 @@ const ChildAttributeTable = ({
                 setIsCheck={setIsCheck}
                 handleUpdate={handleUpdate}
                 handleModalOpen={handleModalOpen}
-                title={showingTranslateValue1(attribute.name[lang], lang)}
+                title={showingTranslateValue(attribute.name[lang], lang)}
               />
             </TableCell>
           </TableRow>

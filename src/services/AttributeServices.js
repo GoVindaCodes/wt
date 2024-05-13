@@ -295,6 +295,12 @@ const AttributeServices = {
     return requests.post('/api/attributes/add/all', body);
   },
 
+  addChildAttributes: async (id, body) => {
+    console.log("ids : ", id)
+    console.log("Datas : ", body)
+    return requests.put(`/api/attributes/add/child/${id}`, body);
+  },
+
   getAttributeById: async (id) => {
     return requests.get(`/api/attributes/${id}`);
   },
@@ -310,6 +316,9 @@ const AttributeServices = {
   updateStatus: async (id, body) => {
     return requests.put(`/api/attributes/status/${id}`, body);
   },
+  updateChildStatus: async (id, body) => {
+    return requests.put(`/api/attributes/status/child/${id}`, body);
+  },
 
   deleteAttribute: async (id) => {
     console.log(":id ", id)
@@ -317,7 +326,7 @@ const AttributeServices = {
   },
 
   deleteChildAttribute: async ({ id, ids }, body) => {
-    return requests.put(`/api/attributes/delete/child/${ids}/${id}`, body);
+    return requests.delete(`/api/attributes/delete/child/${ids}/${id}`, body);
   },
 
   updateManyAttribute: async (body) => {
@@ -325,8 +334,10 @@ const AttributeServices = {
   },
 
   deleteManyAttribute: async (body) => {
-    return requests.patch('/api/attributes/delete/many', body);
+    const { ids } = body;
+    return requests.delete('/api/attributes/delete/many', { data: { ids } });
   },
+
 
   updateManyChildAttribute: async (body) => {
     return requests.patch('/api/attributes/delete/child/many', body);

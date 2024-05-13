@@ -2,7 +2,8 @@ import { Avatar, TableBody, TableCell, TableRow } from "@windmill/react-ui";
 import { showingTranslateValue } from "utils/translate";
 
 const AttributeList = ({ variants, variantTitle, lang, currency }) => {
-  // console.log("varriants", variants)
+  console.log("varriants", variants)
+  console.log("titles", variantTitle)
   return (
     <>
       <TableBody>
@@ -13,10 +14,10 @@ const AttributeList = ({ variants, variantTitle, lang, currency }) => {
             </TableCell>
             <TableCell>
               <div className="flex items-center">
-                {variant.image ? (
+                {variant?.image ? (
                   <Avatar
                     className="hidden p-1 mr-2 md:block bg-gray-50 shadow-none"
-                    src={variant.image}
+                    src={variant?.image}
                     alt="product"
                   />
                 ) : (
@@ -49,33 +50,40 @@ const AttributeList = ({ variants, variantTitle, lang, currency }) => {
                     ?.filter(Boolean)
                     .join(" ")}
                 </span>
-                {variant.productId && (
+                {variant?.productId && (
                   <span className="text-xs text-gray-500">
-                    ({variant.productId})
+                    {/* ({variant.productId}) */}
+                    {variantTitle?.map((hi, index) => (
+                      <div key={index}>
+                        <span>{hi.name.en}: </span>
+                        <span>{hi.variants[0]?.name.en}</span>
+                      </div>
+                    ))}
                   </span>
                 )}
               </div>
             </TableCell>
 
             <TableCell className="font-semibold uppercase text-xs">
-              {variant.sku}
+              {variant?.sku}
             </TableCell>
             <TableCell className="font-semibold uppercase text-xs">
-              {variant.barcode}
-            </TableCell>
-
-            <TableCell className="font-semibold uppercase text-xs">
-              {currency}
-              {variant.originalPrice}
-            </TableCell>
-            <TableCell className="font-semibold uppercase text-xs">
-              {currency}
-              {variant.price}
+              {variant?.barcode}
             </TableCell>
 
             <TableCell className="font-semibold uppercase text-xs">
               {currency}
-              {variant.quantity}
+              {variant?.originalPrice}
+            </TableCell>
+            <TableCell className="font-semibold uppercase text-xs">
+              {currency}
+              {variant?.price}
+            </TableCell>
+
+            <TableCell className="font-semibold uppercase text-xs">
+              {/* {currency} */}
+              {variant?.quantity}
+              {variant?.stock}
             </TableCell>
           </TableRow>
         ))}

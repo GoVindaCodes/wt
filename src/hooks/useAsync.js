@@ -5,6 +5,7 @@ import { SidebarContext } from "context/SidebarContext";
 
 const useAsync = (asyncFunction) => {
   const [data, setData] = useState([] || {});
+  const [dataTable, setDataTable] = useState([] || {});
   const [error, setError] = useState("");
   // const [errCode, setErrCode] = useState('');
   const [loading, setLoading] = useState(true);
@@ -52,7 +53,7 @@ const useAsync = (asyncFunction) => {
       }
     })();
 
-  
+
 
     setIsUpdate(false);
 
@@ -79,6 +80,8 @@ const useAsync = (asyncFunction) => {
 
 
   return {
+    dataTable,
+    setDataTable,
     data,
     error,
     loading,

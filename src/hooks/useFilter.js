@@ -78,6 +78,8 @@ const useFilter = (data) => {
   const [attributeTitle, setAttributeTitle] = useState("");
   const [country, setCountry] = useState("");
   const [zone, setZone] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [language, setLanguage] = useState("");
   const [currency, setCurrency] = useState("");
   const [pending, setPending] = useState([]);
@@ -87,6 +89,7 @@ const useFilter = (data) => {
   const [role, setRole] = useState("");
   const [time, setTime] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [resultsPerPage, setResultsPerPage] = useState(10);
   const [dataTable, setDataTable] = useState([]); //DataTable for showing on table according to filtering
   const [todayOrder, setTodayOrder] = useState("");
   const [monthlyOrder, setMonthlyOrder] = useState("");
@@ -171,20 +174,63 @@ const useFilter = (data) => {
       setTotalOrder(totalOrder);
     }
     //products filtering
-    if (filter) {
+    // if (filter) {
+    // if (role && role !== "All") {
+    if (filter && filter !== "Category") {
       services = services.filter((item) => item.parent === filter);
+      console.log("hi", filter)
     }
-    if (sortedField === "Low") {
-      services = services.sort((a, b) => a.price < b.price && -1);
+    if (sortedField === "low") {
+      services = services.sort((a, b) => a.originalPrice - b.originalPrice);
     }
-    if (sortedField === "High") {
-      services = services.sort((a, b) => a.price > b.price && -1);
+    if (sortedField === "high") {
+      services = services.sort((a, b) => b.originalPrice - a.originalPrice);
+    }
+    if (sortedField === "published") {
+      services = services.filter((item) => item.status === "show");
+    }
+    if (sortedField === "unPublished") {
+      services = services.filter((item) => item.status === "hide");
+    }
+    if (sortedField === "status-selling") {
+      services = services.filter((item) => item.quantity > 0);
+    }
+    if (sortedField === "status-out-of-stock") {
+      services = services.filter((item) => item.quantity === 0);
+    }
+    if (sortedField === "date-added-asc") {
+      services = services.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    }
+    if (sortedField === "date-added-desc") {
+      services = services.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+    if (sortedField === "date-updated-asc") {
+      services = services.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt));
+    }
+    if (sortedField === "date-updated-desc") {
+      services = services.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
     }
     if (searchText) {
       services = services.filter((search) =>
         search?.title?.toLowerCase().includes(searchText.toLowerCase())
       );
     }
+
+    // if (filter === "All") {
+    //   // Reset services to original data
+    //   services = data;
+    // }
+
+    // if (sortedField === "low") {
+    //   console.log("sorts It", services)
+    //   services = services.sort((a, b) => a.price < b.price && -1);
+    // }
+    // if (sortedField === "high") {
+    //   services = services.sort((a, b) => a.price > b.price && -1);
+    // }
+    // if (sortedField === "date-added-asc") {
+    //   services = services.filter((item) => item.createdAt === 0);
+    // }
 
     if (attributeTitle) {
       services = services.filter(
@@ -260,8 +306,14 @@ const useFilter = (data) => {
 
 
     //admin Filtering
-    if (role) {
+    // if (role) {
+    //   services = services.filter((staff) => staff.role === role);
+    // }
+    // Added By : Govinda 3/5/2024
+    // for all to select and makes it show all insteads
+    if (role && role !== "All") {
       services = services.filter((staff) => staff.role === role);
+      console.log("hi: ", services)
     }
     //User and Admin filtering
     if (searchUser) {
@@ -288,20 +340,58 @@ const useFilter = (data) => {
       );
     }
     // order filtering
-    if (status) {
+    // if (status) {
+    // Added By : Govinda 05/3/2024 just for Sorting It All
+    if (status && status !== "Status") {
       services = services.filter((order) => order.status === status);
     }
     if (searchOrder) {
       services = services.filter((order) =>
-        // Added By : Govinda 04/23/2023 just for thiss dataa
+        // Added By : Govinda 04/23/2024 just for thiss dataa
         order.user_info.name.toLowerCase().includes(searchOrder.toLowerCase())
       );
     }
-    if (time) {
+    // Added By : Govinda 05/3/2024 just for Sorting It All
+    // if (time) {
+    if (time && time !== "Order limits") {
       services = services.filter((order) =>
         dayjs(order.createdAt).isBetween(date, new Date())
       );
     }
+
+    if (startDate && endDate) {
+      const startDateObj = new Date(startDate);
+      const endDateObj = new Date(endDate);
+
+      services = services.filter((order) =>
+        dayjs(order.createdAt).isBetween(startDateObj, endDateObj)
+      );
+
+      console.log("datess herees :", services)
+    }
+    // if (startDate && endDate) {
+    //   services = services.filter((order) =>
+    //     dayjs(order.createdAt).isBetween(startDate, endDate)
+    //   );
+    // }
+    // if (startDate) {
+    //   // Calculate the end date as the current date
+    //   const currentDate = new Date();
+    //   // Filter services based on the range from startDate to currentDate
+    //   services = services.filter((order) =>
+    //     dayjs(order.createdAt).isBetween(startDate, currentDate)
+    //   );
+    // }
+
+    // if (endDate) {
+    //   // Calculate the end date as the current date
+    //   const currentDate = new Date();
+    //   // Filter services based on the range from startDate to currentDate
+    //   services = services.filter((order) =>
+    //     dayjs(order.createdAt).isBetween(endDate, currentDate)
+    //   );
+    // }
+
 
     //country filtering
     if (country) {
@@ -360,7 +450,7 @@ const useFilter = (data) => {
     //     cur.iso_code.toLowerCase().includes(currency.toLowerCase())
     //   );
     // }
-
+    // console.log("services : ", services)
     return services;
   }, [
     time,
@@ -385,26 +475,418 @@ const useFilter = (data) => {
   ]);
 
   //pagination functionality start
-  const resultsPerPage = 10;
+  // const resultsPerPage = 10;
   const totalResults = serviceData?.length;
+  // console.log("hi from filters : ", totalResults)
   const handleChangePage = (p) => {
-    // console.log('Changing page to:', p);
+    console.log('Changing page to:', p);
     setCurrentPage(p);
+    // setResultsPerPage(p);
   };
+  // original Logics
+
+  // useEffect(() => {
+  //   console.log("Running useEffect for pagination");
+  //   console.log("Current Page:", currentPage);
+  //   console.log("Results Per Page:", resultsPerPage);
+  //   setDataTable(
+  //     serviceData?.slice(
+  //       (currentPage - 1) * resultsPerPage,
+  //       currentPage * resultsPerPage
+  //     )
+  //   );
+  // }, [serviceData, currentPage, resultsPerPage]);
+  // useEffect(() => {
+  //   if (searchText) {
+  //     setDataTable(serviceData);
+  //     setCurrentPage(1); // Set currentPage to 1 when filters or searchText change
+  //     setResultsPerPage(serviceData?.length || 1); // Set resultsPerPage to the length of serviceData
+  //   } else {
+  //     const totalResults = serviceData?.length || 0;
+  //     const startIndex = Math.min((currentPage - 1) * resultsPerPage + 1, totalResults);
+  //     const endIndex = Math.min(currentPage * resultsPerPage, totalResults);
+  //     setDataTable(serviceData?.slice(startIndex - 1, endIndex) || []);
+  //   }
+  // }, [
+  //   serviceData,
+  //   currentPage,
+  //   resultsPerPage,
+  //   filter,
+  //   sortedField,
+  //   searchText,
+  //   attributeTitle,
+  //   categoryType,
+  //   role,
+  //   searchUser,
+  //   searchCoupon,
+  //   status,
+  //   searchOrder,
+  //   country,
+  //   shipping,
+  //   language,
+  //   currency,
+  // ]);
+  // useEffect(() => {
+  //   if (searchText) {
+  //     // Reset currentPage to 1 when searchText changes
+  //     setCurrentPage(1);
+  //     // Update resultsPerPage based on the length of filtered data
+  //     setResultsPerPage(serviceData?.length || 1);
+  //     // Set the data table to display the filtered results
+  //     setDataTable(serviceData);
+  //   } else {
+  //     // Calculate totalResults and pagination range when searchText is empty
+  //     const totalResults = serviceData?.length || 0;
+  //     const startCount = Math.min((currentPage - 1) * resultsPerPage + 1, totalResults);
+  //     const endCount = Math.min(currentPage * resultsPerPage, totalResults);
+  //     const displayText = `SHOWING ${startCount}-${endCount} OF ${totalResults}`;
+  //     console.log(displayText);
+  //     // Update data table to display the current page of results
+  //     setDataTable(serviceData?.slice(startCount - 1, endCount) || []);
+  //   }
+  // }, [searchText, serviceData, currentPage, resultsPerPage, setCurrentPage, setResultsPerPage, setDataTable]);
+
+
   useEffect(() => {
-    setDataTable(
-      serviceData?.slice(
-        (currentPage - 1) * resultsPerPage,
-        currentPage * resultsPerPage
-      )
-    );
+    let slicedData;
+    if (serviceData?.length > 0) {
+      const startIndex = (currentPage - 1) * resultsPerPage;
+      const endIndex = Math.min(currentPage * resultsPerPage, serviceData?.length);
+      slicedData = serviceData.slice(startIndex, endIndex);
+    } else {
+      slicedData = serviceData;
+    }
+    // if (filter === "All") {
+    //   setResultsPerPage(10);
+    //   setDataTable(slicedData);
+    // }
+    const filtersActive =
+      // filter ||
+      // sortedField ||
+      attributeTitle ||
+      categoryType ||
+      // role ||
+      searchUser ||
+      searchCoupon ||
+      status ||
+      searchOrder ||
+      country ||
+      shipping ||
+      language ||
+      // sortedField ||
+      currency;
+
+    if (filtersActive || searchText) {
+      setCurrentPage(1);
+      setResultsPerPage(serviceData?.length || 1);
+      setDataTable(serviceData);
+    } else {
+      setResultsPerPage(10);
+      setDataTable(slicedData);
+    }
+  }, [
+    serviceData,
+    currentPage,
+    resultsPerPage,
+    filter,
+    sortedField,
+    searchText,
+    attributeTitle,
+    categoryType,
+    role,
+    searchUser,
+    searchCoupon,
+    status,
+    searchOrder,
+    country,
+    shipping,
+    language,
+    currency,
+  ]);
+
+
+  useEffect(() => {
+    const totalResults = serviceData?.length || 0;
+    const endCount = Math.min(currentPage * resultsPerPage, totalResults);
+    const startCount = endCount > 0 ? Math.min((currentPage - 1) * resultsPerPage + 1, totalResults) : 0;
+    const displayText = `SHOWING ${startCount}-${endCount} OF ${totalResults}`;
+    // console.log(displayText);
   }, [serviceData, currentPage, resultsPerPage]);
+
+
+
+
+
+  // useEffect(() => {
+  //   if (searchText) {
+  //     setDataTable(serviceData);
+  //     setCurrentPage(1);
+  //     setResultsPerPage(Math.min(resultsPerPage, serviceData?.length));
+  //   } else {
+  //     const startIndex = Math.min(
+  //       (currentPage - 1) * resultsPerPage,
+  //       serviceData?.length - 1
+  //     );
+  //     const endIndex = Math.min(currentPage * resultsPerPage, serviceData?.length);
+  //     setDataTable(serviceData?.slice(startIndex, endIndex));
+  //   }
+  // }, [
+  //   serviceData,
+  //   currentPage,
+  //   resultsPerPage,
+  //   filter,
+  //   sortedField,
+  //   searchText,
+  //   attributeTitle,
+  //   categoryType,
+  //   role,
+  //   searchUser,
+  //   searchCoupon,
+  //   status,
+  //   searchOrder,
+  //   country,
+  //   shipping,
+  //   language,
+  //   currency,
+  // ]);
+
+  // useEffect(() => {
+  //   setDataTable(
+  //     serviceData?.slice(
+  //       (currentPage - 1) * resultsPerPage,
+  //       currentPage * resultsPerPage
+  //     )
+  //   );
+  // }, [serviceData, currentPage, resultsPerPage]);
+
   //pagination functionality end
+
+  // useEffect(() => {
+  //   let slicedData;
+  //   if (serviceData?.length > 0 && !searchText) { // Only slice when not searching
+  //     const startIndex = (currentPage - 1) * resultsPerPage;
+  //     const endIndex = Math.min(currentPage * resultsPerPage, serviceData.length);
+  //     slicedData = serviceData.slice(startIndex, endIndex);
+  //   } else {
+  //     slicedData = serviceData; // Keep the data as is if it's empty or when searching
+  //   }
+  //   setDataTable(slicedData);
+  // }, [serviceData, currentPage, resultsPerPage, searchText]);
+
+  // working logic with searching and reflectings in the datatables
+
+  // useEffect(() => {
+  //   let slicedData;
+  //   if (serviceData?.length > 0) {
+  //     const startIndex = (currentPage - 1) * resultsPerPage;
+  //     const endIndex = Math.min(currentPage * resultsPerPage, serviceData.length);
+  //     slicedData = serviceData.slice(startIndex, endIndex);
+  //   } else {
+  //     slicedData = serviceData;
+  //   }
+  //   const filtersActive =
+  //     filter ||
+  //     sortedField ||
+  //     attributeTitle ||
+  //     categoryType ||
+  //     role ||
+  //     searchUser ||
+  //     searchCoupon ||
+  //     status ||
+  //     searchOrder ||
+  //     country ||
+  //     shipping ||
+  //     language ||
+  //     currency;
+
+  //   if (filtersActive || searchText) {
+  //     setDataTable(serviceData);
+  //   } else {
+  //     setDataTable(slicedData);
+  //   }
+  // }, [
+  //   serviceData,
+  //   currentPage,
+  //   resultsPerPage,
+  //   filter,
+  //   sortedField,
+  //   searchText,
+  //   attributeTitle,
+  //   categoryType,
+  //   role,
+  //   searchUser,
+  //   searchCoupon,
+  //   status,
+  //   searchOrder,
+  //   country,
+  //   shipping,
+  //   language,
+  //   currency,
+  // ]);
+
+  // useEffect(() => {
+  //   let slicedData;
+  //   if (serviceData?.length > 0) {
+  //     const startIndex = (currentPage - 1) * resultsPerPage;
+  //     const endIndex = Math.min(currentPage * resultsPerPage, serviceData?.length);
+  //     slicedData = serviceData.slice(startIndex, endIndex);
+  //   } else {
+  //     slicedData = serviceData;
+  //   }
+  //   const filtersActive =
+  //     filter ||
+  //     sortedField ||
+  //     attributeTitle ||
+  //     categoryType ||
+  //     role ||
+  //     searchUser ||
+  //     searchCoupon ||
+  //     status ||
+  //     searchOrder ||
+  //     country ||
+  //     shipping ||
+  //     language ||
+  //     currency;
+
+  //   if (filtersActive || searchText) {
+  //     setDataTable(serviceData);
+  //     setCurrentPage(0); // Set currentPage to 1 when filters or searchText change
+  //   } else {
+  //     setDataTable(slicedData);
+  //   }
+  // }, [
+  //   serviceData,
+  //   currentPage,
+  //   resultsPerPage,
+  //   filter,
+  //   sortedField,
+  //   searchText,
+  //   attributeTitle,
+  //   categoryType,
+  //   role,
+  //   searchUser,
+  //   searchCoupon,
+  //   status,
+  //   searchOrder,
+  //   country,
+  //   shipping,
+  //   language,
+  //   currency,
+  // ]);
+
+  // useEffect(() => {
+  //   let slicedData;
+  //   if (serviceData?.length > 0) {
+  //     const startIndex = (currentPage - 1) * resultsPerPage;
+  //     const endIndex = Math.min(currentPage * resultsPerPage, serviceData?.length);
+  //     slicedData = serviceData.slice(startIndex, endIndex);
+  //   } else {
+  //     slicedData = serviceData;
+  //   }
+  //   const filtersActive =
+  //     filter ||
+  //     sortedField ||
+  //     attributeTitle ||
+  //     categoryType ||
+  //     role ||
+  //     searchUser ||
+  //     searchCoupon ||
+  //     status ||
+  //     searchOrder ||
+  //     country ||
+  //     shipping ||
+  //     language ||
+  //     currency;
+
+  //   if (filtersActive || searchText) {
+  //     setDataTable(serviceData);
+  //     setCurrentPage(1); // Set currentPage to 1 when filters or searchText change
+  //   } else {
+  //     setDataTable(slicedData);
+  //   }
+  // }, [
+  //   serviceData,
+  //   currentPage,
+  //   resultsPerPage,
+  //   filter,
+  //   sortedField,
+  //   searchText,
+  //   attributeTitle,
+  //   categoryType,
+  //   role,
+  //   searchUser,
+  //   searchCoupon,
+  //   status,
+  //   searchOrder,
+  //   country,
+  //   shipping,
+  //   language,
+  //   currency,
+  // ]);
+
+
+
+
+
+  // useEffect(() => {
+  //   let slicedData;
+  //   if (serviceData?.length > 0) {
+  //     const startIndex = currentPage === 1 ? 0 : (currentPage - 1) * resultsPerPage;
+  //     const endIndex = Math.min(currentPage * resultsPerPage, serviceData?.length);
+  //     slicedData = serviceData.slice(startIndex, endIndex);
+  //   } else {
+  //     slicedData = serviceData;
+  //   }
+  //   const filtersActive =
+  //     filter ||
+  //     sortedField ||
+  //     attributeTitle ||
+  //     categoryType ||
+  //     role ||
+  //     searchUser ||
+  //     searchCoupon ||
+  //     status ||
+  //     searchOrder ||
+  //     country ||
+  //     shipping ||
+  //     language ||
+  //     currency;
+
+  //   if (filtersActive || searchText) {
+  //     setDataTable(serviceData);
+  //     // setCurrentPage(1); // Set currentPage to 1 when filters or searchText change
+  //   } else {
+  //     setDataTable(slicedData);
+  //   }
+  // }, [
+  //   serviceData,
+  //   currentPage,
+  //   resultsPerPage,
+  //   filter,
+  //   sortedField,
+  //   searchText,
+  //   attributeTitle,
+  //   categoryType,
+  //   role,
+  //   searchUser,
+  //   searchCoupon,
+  //   status,
+  //   searchOrder,
+  //   country,
+  //   shipping,
+  //   language,
+  //   currency,
+  // ]);
+
+
   //table form submit function for search start
   const handleSubmitForAll = (e) => {
     console.log("hi: ", searchRef.current.value)
     e.preventDefault();
     setSearchText(searchRef.current.value);
+    setCurrentPage(1);
+    // handleChangePage(0);// Reset current page to 1 after search
+    // setResultsPerPage(setCurrentPage);
   };
   const handleSubmitUser = (e) => {
     e.preventDefault();
@@ -864,6 +1346,10 @@ const useFilter = (data) => {
     setCountry,
     zone,
     setZone,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
     handleSubmitCountry,
     languageRef,
     handleSubmitLanguage,
@@ -878,6 +1364,7 @@ const useFilter = (data) => {
     handleSubmitShipping,
     shippingRef,
     globalSetting,
+    currentPage,
   };
 };
 

@@ -213,7 +213,8 @@ const sidebar = [
   {
     icon: FiTarget,
     name: "ViewStore",
-    path: "http://localhost:3000",
+    // path: "http://localhost:3000",
+    path: "https://ecommdaddy.com/",
     outside: "store",
   },
   {

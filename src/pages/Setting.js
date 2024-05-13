@@ -16,6 +16,7 @@ import requests from 'services/httpService';
 import useAsync from 'hooks/useAsync';
 import CustomerServices from 'services/CustomerServices';
 import SettingServices from 'services/SettingServices';
+import CurrencyServices from 'services/CurrencyServices';
 
 const Setting = () => {
   const { errors, register, handleSubmit, onSubmit, isSave, isSubmitting } =
@@ -23,26 +24,43 @@ const Setting = () => {
 
   const { t } = useTranslation();
   const [color, setColor] = useState('#6590D5');
-  const { data, loading } = useAsync(SettingServices.getGlobalSetting);
+  // const { data, loading } = useAsync(SettingServices.getGlobalSetting);
 
   const handleChange = (event) => {
     setColor(event.target.value);
   };
-  const [categories, setCategories] = useState([]);
+  const [currencies, setCurrencies] = useState([]);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        console.log("settings customers detials...");
-        const response = await requests.get('/api/setting/global/all');
-        console.log("settings fetched successfully:", response);
-        setCategories(response);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    };
-    fetchCategories();
+    // Fetch currencies when the component mounts
+    CurrencyServices.getAllCurrency()
+      .then((data) => {
+        // Sort the currencies
+        const sortedCurrencies = data.sort((a, b) => a.priority - b.priority);
+        // Set the sorted currencies to state
+        setCurrencies(sortedCurrencies);
+      })
+      .catch((error) => {
+        console.error('Error fetching currencies:', error);
+      });
   }, []);
+  console.log("hi: ", currencies)
+  // Empty dependency array ensures this effect runs only once
+  // const [categories, setCategories] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       console.log("settings customers detials...");
+  //       const response = await requests.get('/api/setting/global/all');
+  //       console.log("settings fetched successfully:", response);
+  //       setCategories(response);
+  //     } catch (error) {
+  //       console.error('Error fetching categories:', error);
+  //     }
+  //   };
+  //   fetchCategories();
+  // }, []);
 
   return (
     <>
@@ -94,6 +112,7 @@ const Setting = () => {
                         label='Currency'
                         name='default_currency'
                         required
+                        currencies={currencies}
                       />
                     </div>
                   </div>

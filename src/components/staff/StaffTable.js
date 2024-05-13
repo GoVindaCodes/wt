@@ -47,7 +47,7 @@ const StaffTable = ({ staffs, lang }) => {
   //   fetchLanguages();
   // }, []);
   const { globalSetting } = useFilter();
-  console.log("id: in stafftable ", data)
+  // console.log("id: in stafftable ", data)
   return (
     <>
       <DeleteModal id={serviceId} title={title} />
@@ -68,7 +68,7 @@ const StaffTable = ({ staffs, lang }) => {
                 />
                 <div>
                   <h2 className="text-sm font-medium">
-                    {showingTranslateValue(staff?.name.en, lang)}
+                    {lang === 'en' ? staff?.name.en : staff?.name}
                   </h2>
                 </div>
               </div>
@@ -101,6 +101,7 @@ const StaffTable = ({ staffs, lang }) => {
                   staff={staff}
                   option="staff"
                   status={staff.status}
+                // className="text-center ml-1"
                 />
               </TableCell>
               <Status status={staff.status} />

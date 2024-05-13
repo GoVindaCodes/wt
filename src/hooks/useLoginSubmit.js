@@ -107,7 +107,7 @@ const useLoginSubmit = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = ({ name, email, verifyEmail, password, role }) => {
+  const onSubmit = ({ name, email, phone, verifyEmail, password, role }) => {
     setLoading(true);
     const cookieTimeOut = 0.5;
 
@@ -135,7 +135,7 @@ const useLoginSubmit = () => {
     }
 
     if (location.pathname === '/signup') {
-      AdminServices.registerAdmin({ name, email, password, role })
+      AdminServices.registerAdmin({ name, email, phone, password, role })
         .then((res) => {
           if (res) {
             setLoading(false);
@@ -152,14 +152,14 @@ const useLoginSubmit = () => {
           setLoading(false);
         });
     }
-
+    // Added by: Govinda 25/4/2024
     if (location.pathname === '/forgot-password') {
-      console.log('Forgot Password form submitted:', verifyEmail); // Log the submitted email address
+      console.log('Forgot Password form submitted:', verifyEmail);
 
       AdminServices.forgetPassword({ verifyEmail })
         .then((res) => {
           setLoading(false);
-          console.log('Password reset response:', res); // Log the response from the backend
+          console.log('Password reset response:', res);
           notifySuccess(res.message);
         })
         .catch((err) => {

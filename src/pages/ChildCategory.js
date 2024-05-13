@@ -134,7 +134,7 @@ const ChildCategory = () => {
       setIsCheck([]);
     }
   };
-
+  console.log("childrens : ", childCategory)
   return (
     <>
       <PageTitle>{t("CategoryPageTitle")}</PageTitle>
@@ -152,23 +152,36 @@ const ChildCategory = () => {
       <div className="flex items-center pb-4">
         <ol className="flex items-center w-full overflow-hidden font-serif">
           <li className="text-sm pr-1 transition duration-200 ease-in cursor-pointer hover:text-emerald-500 font-semibold">
-            <Link to={`/categories`}>{t("Categories")}</Link>
+            <Link className="text-blue-700" to={`/categories`}>{t("Categories")}</Link>
           </li>
-          {selectedObj?.map((child, i) => (
+          <span className="flex items-center font-serif">
+            <li className="text-sm mt-[1px]">
+              {" "}
+              <FiChevronRight />{" "}
+            </li>
+
+            <li className="text-sm pl-1 font-semibold ">
+              {showingTranslateValue(childCategory[0], lang)}
+              {/* {"childrens"} */}
+            </li>
+          </span>
+          {/* {selectedObj?.map((child, i) => (
             <span key={i + 1} className="flex items-center font-serif">
               <li className="text-sm mt-[1px]">
                 {" "}
                 <FiChevronRight />{" "}
               </li>
+
               <li className="text-sm pl-1 transition duration-200 ease-in cursor-pointer text-blue-700 hover:text-green-500 font-semibold ">
                 <Link to={`/categories/${child._id}`}>
                   {showingTranslateValue(child?.name, lang)}
+                  {"childrens"}
                 </Link>
               </li>
             </span>
-          ))}
+          ))} */}
         </ol>
-      </div>
+      </div >
 
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody>
@@ -205,59 +218,61 @@ const ChildCategory = () => {
         </CardBody>
       </Card>
 
-      {loading ? (
-        <Loading loading={loading} />
-      ) : serviceData?.length !== 0 ? (
-        <TableContainer className="mb-8">
-          <Table>
-            <TableHeader>
-              <tr>
-                <TableCell>
-                  <CheckBox
-                    type="checkbox"
-                    name="selectAll"
-                    id="selectAll"
-                    handleClick={handleSelectAll}
-                    isChecked={isCheckAll}
-                  />
-                </TableCell>
-                <TableCell>{t("catIdTbl")}</TableCell>
-                <TableCell>{t("catIconTbl")}</TableCell>
-                <TableCell>{t("Name")}</TableCell>
-                <TableCell>{t("Description")}</TableCell>
+      {
+        loading ? (
+          <Loading loading={loading} />
+        ) : serviceData?.length !== 0 ? (
+          <TableContainer className="mb-8">
+            <Table>
+              <TableHeader>
+                <tr>
+                  <TableCell>
+                    <CheckBox
+                      type="checkbox"
+                      name="selectAll"
+                      id="selectAll"
+                      handleClick={handleSelectAll}
+                      isChecked={isCheckAll}
+                    />
+                  </TableCell>
+                  <TableCell>{t("catIdTbl")}</TableCell>
+                  <TableCell>{t("catIconTbl")}</TableCell>
+                  <TableCell>{t("Name")}</TableCell>
+                  <TableCell>{t("Description")}</TableCell>
 
-                <TableCell className="text-center">
-                  {t("catPublishedTbl")}
-                </TableCell>
-                <TableCell className="text-right">
-                  {t("catActionsTbl")}
-                </TableCell>
-              </tr>
-            </TableHeader>
+                  <TableCell className="text-center">
+                    {t("catPublishedTbl")}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {t("catActionsTbl")}
+                  </TableCell>
+                </tr>
+              </TableHeader>
 
-            <CategoryTable
-              categories={dataTable}
-              data={data}
-              // data={childCategory}
-              lang={lang}
-              isCheck={isCheck}
-              setIsCheck={setIsCheck}
-              useParamId={id}
+              <CategoryTable
+                categories={childCategory}
+                // data={data}
+                data={childCategory}
+                lang={lang}
+                isCheck={isCheck}
+                setIsCheck={setIsCheck}
+                useParamId={id}
 
-            />
-          </Table>
-          <TableFooter>
-            <Pagination
-              totalResults={totalResults}
-              resultsPerPage={resultsPerPage}
-              onChange={handleChangePage}
-              label="Table navigation"
-            />
-          </TableFooter>
-        </TableContainer>
-      ) : (
-        <NotFound title="Sorry, There are no categories right now." />
-      )}
+              />
+            </Table>
+            <TableFooter>
+              <Pagination
+                totalResults={totalResults}
+                resultsPerPage={resultsPerPage}
+                onChange={handleChangePage}
+                label="Table navigation"
+              />
+            </TableFooter>
+          </TableContainer>
+        ) : (
+          <NotFound title="Sorry, There are no categories right now." />
+        )
+      }
     </>
   );
 };

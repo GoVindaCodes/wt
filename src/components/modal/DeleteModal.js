@@ -136,6 +136,7 @@ const DeleteModal = ({ allId, id, ids, setIsCheck, category, title, useParamId }
           const res = await AttributeServices.deleteManyAttribute({
             ids: ids,
           });
+          console.log("Delete many attributes response:", res);
           setIsUpdate(true);
           notifySuccess(res.message);
           setIsCheck([]);
@@ -143,7 +144,9 @@ const DeleteModal = ({ allId, id, ids, setIsCheck, category, title, useParamId }
           closeModal();
           setIsSubmitting(false);
         } else {
+          console.log("Deleting attribute with ID:", id);
           const res = await AttributeServices.deleteAttribute(id);
+          console.log("Delete attribute response:", res);
           setIsUpdate(true);
           notifySuccess(res.message);
           setServiceId();
@@ -156,10 +159,12 @@ const DeleteModal = ({ allId, id, ids, setIsCheck, category, title, useParamId }
         location.pathname === `/attributes/${location.pathname.split("/")[2]}`
       ) {
         if (ids) {
+          console.log("Deleting many child attributes with IDs:", ids);
           const res = await AttributeServices.deleteManyChildAttribute({
             id: location.pathname.split("/")[2],
             ids: ids,
           });
+          console.log("Delete many child attributes response:", res);
           setIsUpdate(true);
           notifySuccess(res.message);
           setServiceId();
@@ -167,12 +172,13 @@ const DeleteModal = ({ allId, id, ids, setIsCheck, category, title, useParamId }
           closeModal();
           setIsSubmitting(false);
         } else {
-          console.log("att value delete", id, location.pathname.split("/")[2]);
-
+          console.log("Deleting child attribute with ID:", id);
+          console.log("Parent attribute ID:", location.pathname.split("/")[2]);
           const res = await AttributeServices.deleteChildAttribute({
             id: id,
             ids: location.pathname.split("/")[2],
           });
+          console.log("Delete child attribute response:", res);
           setIsUpdate(true);
           notifySuccess(res.message);
           setServiceId();
@@ -180,6 +186,7 @@ const DeleteModal = ({ allId, id, ids, setIsCheck, category, title, useParamId }
           setIsSubmitting(false);
         }
       }
+
 
       if (location.pathname === "/our-staff") {
         const res = await AdminServices.deleteStaff(id);

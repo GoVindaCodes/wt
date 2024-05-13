@@ -33,7 +33,7 @@ const AttributeOption = ({
       const dd = attributes?.variants.map((val) => {
         return {
           ...val,
-          name: showingTranslateValue(val?.name, lang),
+          name: showingTranslateValue(val?.name.en, lang),
         };
       });
       setAttributeOptions(dd);
@@ -54,7 +54,7 @@ const AttributeOption = ({
       let dd = attributes?.variants?.map((val) => {
         return {
           ...val,
-          name: showingTranslateValue(val?.name, lang),
+          name: showingTranslateValue(val?.name.en, lang),
         };
       });
 
@@ -78,7 +78,7 @@ const AttributeOption = ({
     const dd = attributes?.variants?.map((val) => {
       return {
         ...val,
-        name: showingTranslateValue(val?.name, lang),
+        name: showingTranslateValue(val?.name.en, lang),
       };
     });
     setAttributeOptions(dd);
@@ -97,7 +97,7 @@ const AttributeOption = ({
         ref={(e) => (resetRef.current[id] = e)}
         onSelect={(v, el) => handleSelectValue(v, el)}
         onRemove={(v, el) => handleRemoveValue(v, el, id)}
-        placeholder={showingTranslateValue(attributes.name, lang)}
+        placeholder={showingTranslateValue(attributes?.name?.en, lang)}
       ></Multiselect>
     </>
   );

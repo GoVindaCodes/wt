@@ -24,6 +24,7 @@ import userData from "utils/customers";
 import requests from "services/httpService";
 import useAsync from "hooks/useAsync";
 import CustomerServices from "services/CustomerServices";
+import CustomPagination from "./CustomPagination";
 
 const Customers = () => {
   const { data, loading } = useAsync(CustomerServices.getAllCustomers);
@@ -43,6 +44,7 @@ const Customers = () => {
     handleSelectFile,
     handleUploadMultiple,
     handleRemoveSelectFile,
+    currentPage,
   } = useFilter(data);
 
   const { t } = useTranslation();
@@ -133,11 +135,17 @@ const Customers = () => {
             <CustomerTable customers={dataTable} />
           </Table>
           <TableFooter>
-            <Pagination
+            {/* <Pagination
               totalResults={totalResults}
               resultsPerPage={resultsPerPage}
               onChange={handleChangePage}
               label="Table navigation"
+            /> */}
+            <CustomPagination
+              currentPage={currentPage}
+              totalResults={totalResults}
+              resultsPerPage={resultsPerPage}
+              onChange={handleChangePage}
             />
           </TableFooter>
         </TableContainer>

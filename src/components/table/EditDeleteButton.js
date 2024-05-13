@@ -18,6 +18,9 @@ const EditDeleteButton = ({
 }) => {
   const { t } = useTranslation();
   // console.log('edite delet button')
+  // Logging id and title
+  // console.log("ID:", id);
+  // console.log("Title:", title);
   return (
     <>
       <div className="flex justify-end text-right">

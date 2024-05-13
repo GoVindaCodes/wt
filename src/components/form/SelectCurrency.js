@@ -8,12 +8,13 @@ const SelectCurrency = ({
   name,
   label,
   required,
-  // loading,
+  loading,
+  currencies,
 }) => {
   // const { data, loading } = useAsync(CurrencyServices.getAllCurrency);
   // Added By: Govinda 23 /04 / 2024
-  const { data, loading } = useAsync(CurrencyServices.getAllCurrency);
-
+  // const { data, loading } = useAsync(CurrencyServices.getAllCurrency);
+  console.log("currecnies : ", currencies)
   return (
     <>
       {loading ? (
@@ -26,14 +27,14 @@ const SelectCurrency = ({
             required: required ? false : `${label} is required!`,
           })}
         >
-          {data?.map((currency) => (
+          {currencies?.map((currency) => (
             <option key={currency._id} value={`${currency.symbol}`}>
               {currency?.name}
             </option>
           ))}
-          <option key={1} value={`$`}>
+          {/* <option key={1} value={`$`}>
             Dollar
-          </option>
+          </option> */}
         </Select>
       )}
     </>

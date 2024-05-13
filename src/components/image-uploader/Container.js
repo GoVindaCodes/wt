@@ -13,7 +13,7 @@ const Container = ({ setImageUrl, imageUrl, handleRemoveImage }) => {
           ],
         })
       );
-    },
+    },  
     [setImageUrl]
   );
 

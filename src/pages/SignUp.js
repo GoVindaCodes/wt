@@ -12,7 +12,7 @@ import ImageLight from "assets/img/create-account-office.jpeg";
 import ImageDark from "assets/img/create-account-office-dark.jpeg";
 
 const SignUp = () => {
-  const {t}=useTranslation()
+  const { t } = useTranslation()
   const { onSubmit, register, handleSubmit, errors, loading } = useLoginSubmit();
 
   return (
@@ -57,6 +57,16 @@ const SignUp = () => {
                   placeholder="john@doe.com"
                 />
                 <Error errorName={errors.email} />
+
+                <LabelArea label="Phone" />
+                <InputArea
+                  register={register}
+                  label="Phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="0123456789"
+                />
+                <Error errorName={errors.phone} />
 
                 <LabelArea label="Password" />
                 <InputArea
@@ -112,7 +122,7 @@ const SignUp = () => {
                   className="text-sm font-medium text-green-500 dark:text-green-400 hover:underline"
                   to="/login"
                 >
-                 {t("AlreadyAccount")}
+                  {t("AlreadyAccount")}
                 </Link>
               </p>
             </div>

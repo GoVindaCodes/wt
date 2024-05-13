@@ -23,11 +23,25 @@ const CustomerTable = ({ customers }) => {
   const [isComposeEmailOpen, setIsComposeEmailOpen] = useState(false);
   const [recipientEmail, setRecipientEmail] = useState("");
 
-  const handleOpenComposeEmail = (email) => {
-    console.log("Opening ComposeEmail component...");
-    setRecipientEmail(email);
-    setIsComposeEmailOpen(true);
+  // const handleOpenComposeEmail = (email) => {
+  //   console.log("Opening ComposeEmail component...");
+  //   setRecipientEmail(email);
+  //   setIsComposeEmailOpen(true);
+  // };
+
+  const handleOpenComposeEmail = async (userId) => {
+    try {
+      // Fetch the user data based on the user ID
+      const user = await CustomerServices.getUserDataById(userId); // Assuming you have this function in CustomerServices
+      console.log("Opening ComposeEmail component...");
+      setRecipientEmail(user.email); // Set the recipient email
+      setIsComposeEmailOpen(true);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      // Handle error (e.g., display error message)
+    }
   };
+
 
   // useEffect(() => {
   //   const fetchCategories = async () => {

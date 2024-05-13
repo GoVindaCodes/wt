@@ -21,7 +21,8 @@ const AttributeListTable = ({
   handleSelectInlineImage,
 }) => {
   const { t } = useTranslation();
-
+  console.log("hi", variantTitle)
+  console.log("variants", variants)
   return (
     <>
       <TableBody>
@@ -87,7 +88,14 @@ const AttributeListTable = ({
 
                 {variant.productId && (
                   <span className="text-xs productId text-gray-500">
-                    ({variant.productId})
+                    {/* ({variant.productId}) */}
+                    {variantTitle?.map((hi, index) => (
+                      <div key={index}>
+                        <span>{hi?.name?.en}: </span>
+                        <span>{hi?.variants[0]?.name?.en}</span>
+                      </div>
+                    ))}
+
                   </span>
                 )}
               </div>
@@ -121,7 +129,7 @@ const AttributeListTable = ({
                 placeholder="Original Price"
                 variant={variant}
                 isBulkUpdate={isBulkUpdate}
-                value={variant.originalPrice || ""}
+                value={variant.originalPrice || "0"}
                 handleQuantityPrice={handleQuantityPrice}
               />
             </TableCell>
@@ -133,7 +141,7 @@ const AttributeListTable = ({
                 placeholder="Sale price"
                 variant={variant}
                 isBulkUpdate={isBulkUpdate}
-                value={variant.price || ""}
+                value={variant.price || "0"}
                 handleQuantityPrice={handleQuantityPrice}
               />
             </TableCell>
@@ -146,7 +154,7 @@ const AttributeListTable = ({
                 variant={variant}
                 isBulkUpdate={isBulkUpdate}
                 handleQuantityPrice={handleQuantityPrice}
-                value={variant.quantity || ""}
+                value={variant.quantity || "0"}
               />
             </TableCell>
 

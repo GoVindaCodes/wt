@@ -75,7 +75,7 @@ const Uploader = ({ setImageUrl, imageUrl, product, folder }) => {
             `Maximum ${globalSetting?.number_of_image_per_product} Image Can be Upload!`
           );
         }
-
+        console.log("images #", globalSetting?.number_of_image_per_product)
         setLoading(true);
         setError("Uploading....");
 
@@ -219,7 +219,9 @@ const Uploader = ({ setImageUrl, imageUrl, product, folder }) => {
             </button>
           </div>
         ) : (
-          thumbs
+          // Added Null for now to make it works
+          null
+          // thumbs
         )}
       </aside>
     </div>

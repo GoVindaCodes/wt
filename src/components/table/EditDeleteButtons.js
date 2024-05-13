@@ -19,8 +19,8 @@ const EditDeleteButtons = ({
     const { t } = useTranslation();
 
     // Logging id and title
-    console.log("ID:", id);
-    console.log("Title:", title);
+    // console.log("ID:", id);
+    // console.log("Title:", title);
 
     return (
         <>

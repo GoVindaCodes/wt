@@ -76,8 +76,8 @@ const CustomerOrderTable = ({ orders }) => {
             <TableCell className="text-center">
               <Status status={order.status} />
             </TableCell>
-            {/* added by : Govinda 19/04/2024 order was missing
-            <TableCell className="text-right">
+            {/* added by : Govinda 19/04/2024 order was missing */}
+            {/* <TableCell className="text-right">
               <SelectStatus id={order._id} order={order} />
             </TableCell> */}
           </TableRow>

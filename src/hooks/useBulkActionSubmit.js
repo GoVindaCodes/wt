@@ -126,10 +126,11 @@ const useBulkActionSubmit = (ids, lang = "en", childId) => {
 
       if (location.pathname === "/currencies") {
         const res = await CurrencyServices.updateManyCurrencies(currenciesData);
+        // console.log("hi from bulks:", res)
         setIsUpdate(true);
         notifySuccess(res.message);
         closeBulkDrawer();
-        console.log("currencies update Many");
+        // console.log("currencies update Many");
       }
 
       if (
